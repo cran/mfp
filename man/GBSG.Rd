@@ -31,8 +31,8 @@
 \references{
   M. Schumacher, G. Basert, H. Bojar,  K. Huebner, M. Olschewski, 
   W. Sauerbrei, C. Schmoor, C. Beyerle, R.L.A. Neumann and H.F. Rauschecker
-  for the German Breast Cancer Study Group (1994),
-  Randomized \eqn{2\times2} trial evaluating hormonal treatment
+  for the German Breast Cancer Study Group (1994).
+  Randomized \eqn{2 \times 2} trial evaluating hormonal treatment
   and the duration of chemotherapy in node-positive breast cancer patients.
   \emph{Journal of Clinical Oncology}, \bold{12}, 2086--2093.
 
@@ -42,8 +42,8 @@
   Series A}, Volume \bold{162}(1), 71--94.
 }
 \examples{
-	data(GBSG)
-	mfp(Surv(rfst, cens) ~ fp(age, df = 2, select = 0.05)
+    data(GBSG)
+    mfp(Surv(rfst, cens) ~ fp(age, df = 2, select = 0.05)
                  + fp(prm, df = 4, select = 0.05), family = cox, data = GBSG)
 
 }

@@ -1,0 +1,5 @@
+04.08.2004  	1.2.2	plot.mfp changed: new argument `var'.
+			New dataset `bodyfat' to be used as an example for linear regression.
+			Vignette included.
+
+31.07.2004	1.2.1	Original port

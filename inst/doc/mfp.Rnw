@@ -1,0 +1,234 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsfonts}
+\usepackage{graphicx}
+
+%\VignetteIndexEntry{Multivariable Fractional Polynomials}
+%\VignetteKeywords{variable selection, transformation, regression, fractional polynomials}
+%\VignetteDepends{mfp}
+
+%\renewcommand{\figurename}{\footnotesize Figure}
+%\renewcommand{\tablename}{\footnotesize Table}
+
+\setlength{\parindent}{0pt}
+\setlength{\oddsidemargin}{-0,5cm}
+\setlength{\textwidth}{17cm}
+\setlength{\topmargin}{-1,7cm}
+\setlength{\textheight}{23.5cm}
+
+\begin{document}
+
+\title{Multivariable Fractional Polynomials}
+\author{Axel Benner}
+
+\SweaveOpts{engine=R,eps=FALSE,pdf=TRUE}
+
+<<preliminaries,echo=FALSE>>=
+options(prompt=">", width=50)
+set.seed(20040804)
+@
+
+\maketitle
+\tableofcontents
+\section{Introduction}
+The \texttt{mfp} package is a collection of R \cite{R04} functions targeted at the use of fractional 
+polynomials (FP) for modelling the relationship between a continuous covariate and the 
+outcome in regression models, as introduced by Royston \&\ Altman (1994) \cite{FP94} and 
+modified by Sauerbrei \&\ Royston (1999) \cite{SauRoy99}. 
+It combines backward elimination with a systematic search for a `suitable' transformation 
+to represent the influence of each continuous covariate on the outcome. 
+An application of multivariable fractional polynomials (MFP) in modelling prognostic and 
+diagnostic factors in breast cancer is given by \cite{SauRoy99}.
+The stability of the models selected is investigated in \cite{RoySau03}.
+Briefly, fractional polynomials models are useful when one wishes to preserve the continuous 
+nature of the covariates in a regression model, but suspects that some or all of the 
+relationships may be non-linear. 
+At each step of a `backfitting' algorithm MFP constructs a fractional polynomial transformation
+for each continuous covariate while fixing the current functional forms of the other covariates. 
+The algorithm terminates when the functional forms of the covariates do not change anymore.
+
+\section{Inventory of functions}
+
+\texttt{mfp.object} is an object representing a fitted \texttt{mfp} model. 
+Class \texttt{mfp} inherits from either glm or coxph depending on the type of model fitted.
+In addition to the standard glm/coxph components the following components are included in an 
+\texttt{mfp} object
+\begin{description}
+\item[x]  
+the final FP transformations that are contained in the design matrix x. 
+The predictor "z" with 4 df would have corresponding columns "z.1" and "z.2" in x.
+\item[powers]  
+a matrix containing the best FP powers for each predictor. 
+If a predictor has less than two powers a NA will fill the appropriate cell of the matrix.
+\item[pvalues]     
+a matrix containing the P-values from the closed tests. 
+Briefly p.null is the P-value for the test of inclusion (see mfp), p.lin corresponds to the 
+test of nonlinearity and p.FP the test of simplification. 
+The best m=1 power (power2) and best m=2 powers (power4.1 and power4.2) are also given.
+\item[scale]   
+all predictors are shifted and rescaled before being power transformed if nonpositive values 
+are encountered or the range of the predictor is reasonably large. 
+If x' would be used instead of x where x' = (x+a)/b the parameters a (shift) and b (scale) 
+are contained in the matrix scale.
+\item[df.initial]  
+a vector containing the degrees of freedom allocated to each predictor.
+\item[df.final]    
+a vector containing the degrees of freedom of each predictor at convergence of the backfitting 
+algorithm.
+\item[dev]     
+the deviance of the final model.
+\item[dev.lin]     
+the deviance of the model that has every predictor included with 1 df (i.e. linear).
+\item[dev.null]    
+the deviance of the null model.
+\item[fptable]     
+the table of the final fp transformations.
+\end{description}
+
+\section{Usage in R}
+
+Start with
+
+<<>>=
+library(mfp)
+@
+
+An \texttt{mfp.object} will be created by application of function \texttt{mfp}. 
+
+<<>>=
+str(mfp)
+@
+
+A typical predictor has the form \texttt{response $\sim$ terms} where \texttt{response} is the 
+(numeric) response vector and \texttt{terms} is a series of terms, separated by $+$ operators,
+which specifies a linear predictor for \texttt{response} and provided by the \texttt{formula} 
+argument of the function call.
+Fractional polynomial terms are indicated by \texttt{fp}. 
+
+For \texttt{binomial} models the response can also be specified as a \texttt{factor}. 
+If a Cox proportional hazards model is required then the outcome need to be specified using 
+the \texttt{Surv()} notation. 
+
+The argument \texttt{family} describes the error distribution and link function to
+be used in the model. 
+This can be a character string naming a family function, a family function or the result 
+of a call to a family function. 
+
+\texttt{alpha} sets the FP selection level for all predictors. 
+Values for individual predictors are changed using the \texttt{fp} function.
+\texttt{select} sets the variable selection level for all predictors. 
+Values for individual predictors are set using the \texttt{fp} function in the formula.
+
+The function \texttt{fp} defines a fractional polynomial object for a single input 
+variable. 
+<<>>=
+str(fp)
+@
+
+In addition to \texttt{alpha} and \texttt{select} the \texttt{scale} argument of the 
+\texttt{fp} function denotes the use of pre-transformation scaling to avoid possible 
+numerical problems.
+
+\subsection{Model selection}
+The original implementation of \texttt{mfp} uses two different selection procedures
+for a single continuous covariate $x$, a sequential selection procedure and a closed 
+testing selection procedure ({\tt ra2}).
+In the R implementation only the {\tt ra2} algorithm is used. 
+For the sequential selection procedure the actual Type I error rate may exceed the 
+nominal value when the true relationship is a straight line. 
+Therefore the procedure tends to favour more complex models over simple ones. 
+ 
+The {\tt ra2} algorithm is described in \cite{AmbRoy01} and in \cite{SauRoy02}. 
+It uses a closed test procedure \cite{MarPerGab76} which maintains 
+approximately the correct Type I error rate for each component test. 
+The procedure allows the complexity of candidate models to increase progressively from a 
+prespecified minimum (a null model) to a prespecified maximum (an FP) according to an 
+ordered sequence of test results.
+
+The algorithm works as follows:
+\begin{enumerate}
+\item Perform a 4 df test at the $\alpha$ level of the best-fitting second-degree FP against 
+the null model. 
+If the test is not significant, drop $x$ and stop, otherwise continue.
+\item Perform a 3 df test at the $\alpha$ level of the best-fitting second-degree FP against 
+a straight line. 
+If the test is not significant, stop (the final model is a straight line), otherwise continue.
+\item Perform a 2 df test at the $\alpha$ level of the best-fitting second-degree FP against 
+the best-fitting first-degree FP. 
+If the test is significant, the final model is the FP with $m=2$, otherwise the FP with $m=1$. 
+\end{enumerate}
+The tests in step 1, 2 and 3 are of overall association, non-linearity and between a simpler 
+or more complex FP model, respectively.
+
+\section{Example}
+\subsection{Cox proportional hazards model}
+We use the dataset \texttt{GBSG} which contains data from a study of the German Breast Cancer Study Group 
+for patients with node-positive breast cancer. 
+<<>>=
+data(GBSG)
+str(GBSG)
+@
+
+The response variable is recurrence free survival time ({\tt Surv(rfst, cens)}). 
+Complete data on 7 prognostic factors is available for 686
+patients. 
+The median follow-up was about 5 years, 299 events were
+observed for recurrence free survival time. 
+We use a Cox regression to model the hazard of recurrence by the 7 prognostic factors 
+of which 5 are continuous, age of the patients in years ({\tt age}), tumor size in mm 
+({\tt tumsize}), number of positive nodes ({\tt posnodal}), progesterone receptor in 
+fmol ({\tt prm}), estrogen receptor in fmol ({\tt esm}); two are binary, hormonal therapy 
+({\tt htreat}), menopausal status ({\tt menostat}); and one is ordered categorical with 
+three levels, tumor grade ({\tt tumgrad}). 
+
+We use \texttt{mfp} to build a model from the initial set of 7 covariates using the 
+backfitting model selection algorithm. 
+We set the global selection level to 0.05. 
+
+If one uses \texttt{fp()} in the formula a fractional polynomial transformation with 
+pre-transformation scaling is estimated. 
+This is done here for \texttt{tumsize}, \texttt{posnodal}, \texttt{prm}, and \texttt{esm}.
+Otherwise a linear form of the unscaled variable is used, as for \texttt{age}.
+Categorical factors are included without transformation. 
+Alternatively a categorical variable can be applied to define different strata. 
+In the example hormonal therapy ({\tt htreat}) was used as stratification variable.
+
+To be compatible with other implementations of multiple fractional polynomials in SAS and
+Stata we use the Breslow method for tie handling.
+ 
+<<>>=
+f <- mfp(Surv(rfst, cens) ~ strata(htreat)+age+fp(tumsize)+fp(posnodal)+fp(prm)+fp(esm)
+        +menostat+tumgrad, family = cox, data = GBSG, verbose=T)
+@
+
+After three cycles the final model is selected. 
+None of the possible input variables were excluded from the model.
+Only for variables \texttt{prm} and \texttt{posnodal} nonlinear transformations were chosen. 
+Prescaling was used for esm, prm, tumsize and posnodal.
+
+<<>>=
+summary(f)
+@
+
+The final model states a sqrt-transformation for prm {\tt prm/1000}. 
+
+The function \texttt{plot.mfp} draws three plots: 
+the linear predictor function, a plot of the partial residuals together with a lowess smooth,
+and smoothed martingale based residuals of the null model (\ref{fig1}).
+
+\begin{figure}[htb]
+<<fig=TRUE, echo=FALSE>>=
+par(mfrow=c(2,2))
+plot(f, var="prm")
+@
+\caption{\label{fig1} Smoothed null model martingale residuals, the plot of the estimated 
+functional form of the influence of {\tt prm} on the log relative risk of tumor recurrence, 
+and the partial residuals plot for {\tt prm}.}
+\end{figure}
+
+\addcontentsline{toc}{section}{References}
+
+\bibliographystyle{acm}
+\bibliography{mfp}
+
+\end{document}
