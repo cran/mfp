@@ -1,0 +1,4 @@
+import(stats, graphics, survival)
+
+export(mfp, fp, cox)
+S3method(plot, mfp)
