@@ -1,7 +1,7 @@
 mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE, xnames = NULL, ...)
 {
 #
-# Version 1.2.0     27072004
+# Version 1.3     27.03.2005
 #
     int <- as.numeric(!cox) # intercept
     nx <- ncol(x) - int
@@ -12,9 +12,10 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
     if(sum((alpha > 0 & alpha <= 1), na.rm=TRUE) != nx)
         stop("alpha is invalid")
     if(sum((select > 0 & select <= 1), na.rm=TRUE) != nx) stop(
-            "select is invalid")    #
+            "select is invalid")    
+	if(is.null(xnames)) xnames <- x.names
 #
-# Order variables
+# Step 1: Order variables by LR test
 #
     x.order <- fp.order(x, y, cox, gauss, xnames, ...)
     x <- x[, c(int, int + x.order$order), drop=FALSE]
@@ -36,6 +37,10 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
     df.work <- rep(1, nx)
     if(nx > 1)
         pwrs.comp <- matrix(ncol = 2, nrow = nx * (nx - 1))
+#
+# x.work: working matrix with doubled no of columns for input vars.
+# initially second column entries are set to 0 
+#
     x.work <- matrix(0, nrow = nobs, ncol = int + 2 * nx)
     if(int)
         x.work[, 1] <- x[, 1]
@@ -45,9 +50,10 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
     if(cox)
         dimnames(x.work) <- list(1:nobs, x.work.names)
     else dimnames(x.work) <- list(1:nobs, c("Intercept", x.work.names))
+#
     pwrs.stable <- 0    
 #
-# Backfitting loop
+# Step 2: Backfitting loop
 #
     its <- 0
         if(verbose) {
@@ -59,7 +65,7 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
         its <- its + 1
         j <- 0
         while(j < nx & !pwrs.stable) {
-            j <- j + 1  #
+            j <- j + 1
 #
 # Check convergence at start of loop
 #
@@ -76,19 +82,18 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
             else dfr <- nobs - int
             if(!pwrs.stable) {
 #
-# Set up matrices and fit and find best FP
+# Step 2a: Set up matrices and fit and find best single FP. Start with best drop1 variable
 #
-                num <- 2 * (j - 1) + int + seq(2)
+                num <- 2 * (j - 1) + int + seq(2)    # possible new positions of power-trafo var
                 xj <- x[, j + int]
                 if(its == 1) {
-                          xj.transform <- fp.scale(xj, scaling[j])
+				  xj.transform <- fp.scale(xj, scaling[j])
                   scale.mx[j, 1] <- xj.transform$shift
                   scale.mx[j, 2] <- xj.transform$scale
+#                  scale.mx[j, 2] <- 1
                 }
-# if(its==1 & j==2) browser()
                 fitj <- fp.fit(cbind(xj, x.work[,  - num, drop=FALSE]),   
-                  y, df[j], dfr, cox, gauss, scale.mx[j, 1], 
-                  scale.mx[j, 2], ...)
+                  y, df[j], dfr, cox, gauss, scale.mx[j, 1], scale.mx[j, 2], ...)
                 res <- fp.sel(fitj, alpha[j], select[j])
                 best.fitj <- res$results
                 fit.fitj <- res$fit
@@ -104,14 +109,15 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
                 if(j==1) cat("\nCycle", its)
             pos <- c(1, 3, 5)   
                 namej <- x.names[[j]]
-            fp.out(namej, round(fit.fitj$dev0, 3), " ", pos = pos)
+            fp.out(namej," ", " ", pos = pos)
+            fp.out("", round(fit.fitj$dev0, 3), " ", pos = pos)
             fp.out("", round(fit.fitj$dev1, 3), "1", pos = pos)
             fp.out("", round(fit.fitj$dev2, 3), fit.fitj$pwr2, pos = pos)
             fp.out("", round(fit.fitj$dev4, 3), fit.fitj$pwr4, pos = pos)
 # best fit
 #     pos <- c(0, 3, 5) 
 #     fp.out("selected", round(best.fitj$dev, 3), pwrsj, pos = pos)
-            cat("\n")   #
+            cat("\n")
         }
 #
             if(df[j] < 4)
@@ -148,6 +154,7 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
     fit$dev <- best.fitj$dev
     fit$dev.lin <- x.order$dev[2]
     fit$dev.null <- x.order$dev[1]
+	if(cox) fit$method <- "efron"
 #
 # Final output
 #

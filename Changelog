@@ -1,3 +1,9 @@
+01.05.2005	1.3.0	Changes in the primary ordering of variables
+			Scaling changed
+			Likelihood ratio tests are now used for all selections
+			Plot of functional form corrected
+			Print function corrected
+			Value of mfp fit has new component `fit'
 04.08.2004  	1.2.2	plot.mfp changed: new argument `var'.
 			New dataset `bodyfat' to be used as an example for linear regression.
 			Vignette included.

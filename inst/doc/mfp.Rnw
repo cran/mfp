@@ -198,13 +198,13 @@ Stata we use the Breslow method for tie handling.
  
 <<>>=
 f <- mfp(Surv(rfst, cens) ~ strata(htreat)+age+fp(tumsize)+fp(posnodal)+fp(prm)+fp(esm)
-        +menostat+tumgrad, family = cox, data = GBSG, verbose=T)
+        +menostat+tumgrad, family = cox, data = GBSG, select=0.05, verbose=T)
 @
 
 After three cycles the final model is selected. 
-None of the possible input variables were excluded from the model.
-Only for variables \texttt{prm} and \texttt{posnodal} nonlinear transformations were chosen. 
-Prescaling was used for esm, prm, tumsize and posnodal.
+Of the possible input variables tumor size, menopausal status, age and estrogen receptor were excluded from the model.
+Only for variable \texttt{posnodal} a nonlinear transformation was chosen. 
+Prescaling was used for esm, prm and tumsize.
 
 <<>>=
 summary(f)

@@ -113,10 +113,7 @@ hazards (Cox) model.
 	backfitting routine. At completion of the algorithm a table is displayed
 	showing the final powers selected for each variable along with other
 	details.}
-\section{Known Bugs}{
-	the program can have problems with factor variables. It appears to be
-	best to put factors after fp terms in the formula object.
-    
+\section{Known Bugs}{   
 	glm models should not be specified without an intercept term as the
 	software does not yet allow for that possibility.}
 \references{
@@ -128,8 +125,10 @@ hazards (Cox) model.
 
 \examples{
 	data(GBSG)
-	mfp(Surv(rfst, cens) ~ fp(age, df = 4, select = 0.05)
+	f <- mfp(Surv(rfst, cens) ~ fp(age, df = 4, select = 0.05)
                  + fp(prm, df = 4, select = 0.05), family = cox, data = GBSG)
+	print(f)
+	survfit(f$fit)  # use proposed coxph model fit for survival curve estimation
 }
 
 \author{ Gareth Ambler and Axel Benner  }

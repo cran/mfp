@@ -45,6 +45,10 @@ included in a \code{mfp} object.
 	the deviance of the null model.}
  \item{fptable}{
 	the table of the final fp transformations.}
+ \item{formula}{
+	the proposed formula for a call of glm/coxph.}
+ \item{fit}{
+	the fitted glm/coxph model using the proposed formula. This component can be used for prediction, etc.}
 }
   
 \seealso{

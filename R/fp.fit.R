@@ -1,16 +1,18 @@
 fp.fit <- function(X, Y, df, dfr, cox, gauss, shift, scale, ...)
 {
 #
-# Version 1.1.1     09 dec 03
+# Version 1.3     27.03.2005
 #
-    X <- X[,apply(X, 2, function(x) !all(x==0)), drop=FALSE] # to avoid numerical problems
-    x <- X[, 1] # x is first column of X                 # induced by fp.gen if df=0
-    Xcov <- X[, -1, drop=FALSE]   # covariates
+# df defines Df of test and also degree of FP to test (df=1: linear, df=2: FP1, df=4: FP2)
+#
+    X <- X[,apply(X, 2, function(x) !all(x==0)), drop=FALSE]    # to avoid numerical problems
+    x <- X[, 1]                         # x is first column of X	# induced by fp.gen if df=0
+    Xcov <- X[, -1, drop=FALSE]         # all other covariates
     ncov <- ncol(Xcov)
     nobs <- nrow(X)
     pwrs <- c(-2, -1, -0.5, 0, 0.5, 1, 2, 3)
     npwrs <- length(pwrs)
-    dev2 <- dev4 <- 1000000000000000    
+    dev2 <- dev4 <- Inf                 # Deviance for FP1 and FP2 model
 #
 # Set up fitters
 #
@@ -27,19 +29,30 @@ fp.fit <- function(X, Y, df, dfr, cox, gauss, shift, scale, ...)
 #
 # Null and linear models
 #
-    dev <- (-2)^cox * fitter(X, Y, ...)[[dv]]
+        fit <- fitter(X, Y, ...)
+		if(!cox) {
+		  df.r <- fit$df.residual
+          dispersion <- if (gauss) {
+            if (df.r > 0) 
+			   sum(fit$residuals^2)/df.r
+			else Inf
+		  }
+           else 1
+         }
+#
+    dev <- (-2)^cox * fit[[dv]]        # dev1: Full model resid dev
     dev1 <- dev[n]
     if(!ncov)
         dev0 <- dev[1]
-    else dev0 <- (-2)^cox * fitter(Xcov, Y, ...)[[dv]][n]
+    else dev0 <- (-2)^cox * fitter(Xcov, Y, ...)[[dv]][n]  # dev0: Drop1 residual dev
+#
     if(df > 1) {
         for(i in 1:npwrs) {
 #
 # Find best single power transformation
 #
             x.fp <- fp.gen(x, pwrs[i], shift, scale)
-            dev <- (-2)^cox * fitter(cbind(x.fp, Xcov), Y, ...)[[dv
-                ]][n]
+            dev <- (-2)^cox * fitter(cbind(x.fp, Xcov), Y, ...)[[dv]][n]
             if(!is.null(dev) & dev < dev2) {
                 dev2 <- dev
                 pwr2 <- pwrs[i]
@@ -48,10 +61,8 @@ fp.fit <- function(X, Y, df, dfr, cox, gauss, shift, scale, ...)
 #
 # Find best two power transformation
 #
-                x.fp <- fp.gen(x, c(pwrs[i], pwrs[i]), shift, 
-                  scale)
-                dev <- (-2)^cox * fitter(cbind(x.fp, Xcov), Y, 
-                  ...)[[dv]][n]
+                x.fp <- fp.gen(x, c(pwrs[i], pwrs[i]), shift, scale)
+                dev <- (-2)^cox * fitter(cbind(x.fp, Xcov), Y, ...)[[dv]][n]
                 if(!is.null(dev) & dev < dev4) {
                   dev4 <- dev
                   pwr4 <- c(pwrs[i], pwrs[i])
@@ -59,8 +70,7 @@ fp.fit <- function(X, Y, df, dfr, cox, gauss, shift, scale, ...)
                 j <- i + 1
                 while(j <= npwrs) {
                   x.fp <- fp.gen(x, c(pwrs[i], pwrs[j]), shift, scale)
-                  dev <- (-2)^cox * fitter(cbind(x.fp, Xcov), Y,
-                    ...)[[dv]][n]
+                  dev <- (-2)^cox * fitter(cbind(x.fp, Xcov), Y, ...)[[dv]][n]
                   if(!is.null(dev) & dev < dev4) {
                     dev4 <- dev
                     pwr4 <- c(pwrs[i], pwrs[j])
@@ -78,8 +88,18 @@ fp.fit <- function(X, Y, df, dfr, cox, gauss, shift, scale, ...)
         dev[4] <- pwr4 <- NA
     if(df < 2)
         dev[3] <- pwr2 <- NA
-    if(gauss)
-        dev <- nobs * (1 + log((2 * pi * dev)/nobs))
+#
+
+# Compute -log Likelihood
+if(gauss) {
+	wt <- rep(1, nrow(X)) # actually use equal weights only
+    dev <- sum(wt) * (log(dev/sum(wt) * 2 * pi) + 1) + 2
+}
+#    if(!cox) {
+#	   dev <- if (gauss)  nobs * log(dev/nobs)  else  dev/dispersion
+#	 }
+
+#
     fit <- list(pwr4 = pwr4, pwr2 = pwr2, dev4 = dev[4], dev2 = dev[3], 
         dev1 = dev[2], dev0 = dev[1], nobs = nobs, dfr = dfr, df = df, 
         gauss = gauss)

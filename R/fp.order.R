@@ -1,38 +1,54 @@
 fp.order <- function(x, y, cox, gauss, xnames, ...)
 {
 #
-# Version 1.1.0     30.12.03
+# Version 1.3     27.03.2005
 #
-# Returns ordering of xvars (not intercept!)
-# by Wald test ranking (Cox: by LR test)
+# Returns ordering of input variables
+# by LR test ranking 
 #
     int <- as.numeric(!cox)
-    nx <- ncol(x)
+    nx <- ncol(x); nobs <- nrow(x)
     if(cox) {
         if(exists("coxph.fit")) fitter <- get("coxph.fit")
         else fitter <- getFromNamespace("coxph.fit","survival")
         fit <- fitter(x, y, ...)
         se <- sqrt(diag(fit$var))
-        dev <- -2 * fit$loglik
-        p.value <- vector(length=length(xnames))
+		ns <- length(xnames)
+        p.value <- numeric(ns)
         for(i in unique(xnames)) {
             ld <- sum(xnames==i)
             ll <- fitter(x[,xnames!=i, drop=FALSE], y, ...)$loglik[2]
-            p.value[xnames==i] <- pchisq(2*(fit$loglik[2]-ll), df=ld)
+            p.value[xnames==i] <- pchisq(2*(fit$loglik[2]-ll), df=ld, lower=FALSE)
         }
-        x.order <- order(p.value[(1 + int):nx])
+        deviance <- -2 * fit$loglik
     }
     else {
-        fit <- glm.fit(x, y, ...)
-        Iinv <- solve(t(fit$R) %*% fit$R)
-        se <- sqrt(fit$dev/fit$df.residual * diag(Iinv))
-        dev <- c(fit$null.deviance, fit$deviance)
-t.value <- abs(fit$coef/se)
-x.order <- rev(order(t.value[(1 + int):nx]))
-    }
-    if(gauss) {
-        nobs <- nrow(x)
-        dev <- nobs * (1 + log((2 * pi * dev)/nobs))
-    }
-    return(list(order = x.order, dev = dev))
+        fit <- glm.fit(x, y, ...)    # full model
+		df.r <- fit$df.residual
+        dispersion <- if (gauss) {
+          if (df.r > 0) 
+			sum(fit$residuals^2)/df.r
+		  else Inf
+        }
+        else 1
+	    dev.full <- fit$deviance
+	    dfs.full <- fit$df.residual
+		ns <- length(xnames)
+		p.value <- dev <- ld <- numeric(ns)
+        for(i in unique(xnames)) {
+            z <- glm.fit(x[,c(int,which(xnames!=i)+1), drop=FALSE], y, ...)
+            dev[xnames==i] <- z$deviance
+            ld[xnames==i] <- sum(xnames==i)
+        }		
+		dev <- if (gauss)  nobs * log(dev/nobs)  else  dev/dispersion
+		dev.full <- if (gauss)  nobs * log(dev.full/nobs)  else  dev.full/dispersion
+		dev <- pmax(0, dev - dev.full)
+		p.value <- pchisq(dev, ld, lower.tail=FALSE)		
+        deviance <- c(fit$null.deviance, fit$deviance)
+	}
+# dev.full linear
+#	x.order <- order(p.value[(1 + int):nx])
+	x.order <- order(p.value)
+# print(cbind(xnames, dev, ld, p.value))
+    return(list(order = x.order, dev = deviance))
 }

@@ -2,7 +2,7 @@
 \alias{bodyfat}
 \non_function{}
 \title{ percentage of body fat determined by underwater weighing }
-\usage{data(GBSG)}
+\usage{data(bodyfat)}
 \description{
   A data frame containing the estimates of the percentage of body fat 
   determined by underwater weighing and various body circumference 
@@ -31,7 +31,7 @@
     \item{case}{Case number.}
     \item{brozek}{Percent body fat using Brozek's equation: 457/Density - 414.2}
     \item{siri}{Percent body fat using Siri's equation: 495/Density - 450}
-    \item{density}{Density determined from underwater weighing (\eqn{gm/cm^3}).}
+    \item{density}{Density determined from underwater weighing (gm/cm**3).}
     \item{age}{Age (years).}
     \item{weight}{Weight (lbs).}
     \item{height}{Height (inches).}
@@ -65,7 +65,7 @@
 \examples{
     data(bodyfat)
     bodyfat$height[bodyfat$case==42] <- 69.5   # apparent error
-    bodyfat <- bodyfat[-which(bodyfat$case==39),]  # cp. Royston & Sauerbrei, 2004
+    bodyfat <- bodyfat[-which(bodyfat$case==39),]  # cp. Royston $\amp$ Sauerbrei, 2004
     mfp(siri ~ fp(age, df = 4, select = 0.1) + fp(weight, df = 4, select = 0.1)
                  + fp(height, df = 4, select = 0.1), family = gaussian, data = bodyfat)
 }
