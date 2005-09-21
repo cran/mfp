@@ -4,7 +4,7 @@ fp.order <- function(x, y, cox, gauss, xnames, ...)
 # Version 1.3     27.03.2005
 #
 # Returns ordering of input variables
-# by LR test ranking 
+# by LR test ranking via one step backward selection
 #
     int <- as.numeric(!cox)
     nx <- ncol(x); nobs <- nrow(x)

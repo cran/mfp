@@ -40,11 +40,11 @@ fp.fit <- function(X, Y, df, dfr, cox, gauss, shift, scale, ...)
            else 1
          }
 #
-    dev <- (-2)^cox * fit[[dv]]        # dev1: Full model resid dev
+    dev <- (-2)^cox * fit[[dv]]        # dev1: Full model resid deviance
     dev1 <- dev[n]
     if(!ncov)
         dev0 <- dev[1]
-    else dev0 <- (-2)^cox * fitter(Xcov, Y, ...)[[dv]][n]  # dev0: Drop1 residual dev
+    else dev0 <- (-2)^cox * fitter(Xcov, Y, ...)[[dv]][n]  # dev0: Drop1 residual deviance
 #
     if(df > 1) {
         for(i in 1:npwrs) {
@@ -105,3 +105,14 @@ if(gauss) {
         gauss = gauss)
     return(fit)
 }
+
+
+
+
+
+
+
+
+
+
+

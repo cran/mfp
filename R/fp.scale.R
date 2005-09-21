@@ -1,4 +1,4 @@
-fp.scale <- function(x, scaling)
+fp.scale <- function(x, scaling = TRUE)
 {
 #
 # Version 1.3     27.03.2005
@@ -6,7 +6,8 @@ fp.scale <- function(x, scaling)
 scale <- 1; shift <- 0
   if(scaling) {
       if(min(x) <= 0) {
-        z <- sort(x)[-1] - sort(x)[ - length(x)]
+#        z <- sort(x)[-1] - sort(x)[ - length(x)]
+        z <- diff(sort(x))
         shift <- min(z[z > 0]) - min(x)
         shift <- ceiling(shift*10)/10
       }

@@ -16,6 +16,7 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
 	if(is.null(xnames)) xnames <- x.names
 #
 # Step 1: Order variables by LR test
+#  via one-step backward selection
 #
     x.order <- fp.order(x, y, cox, gauss, xnames, ...)
     x <- x[, c(int, int + x.order$order), drop=FALSE]
@@ -90,7 +91,6 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
 				  xj.transform <- fp.scale(xj, scaling[j])
                   scale.mx[j, 1] <- xj.transform$shift
                   scale.mx[j, 2] <- xj.transform$scale
-#                  scale.mx[j, 2] <- 1
                 }
                 fitj <- fp.fit(cbind(xj, x.work[,  - num, drop=FALSE]),   
                   y, df[j], dfr, cox, gauss, scale.mx[j, 1], scale.mx[j, 2], ...)
@@ -110,10 +110,10 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
             pos <- c(1, 3, 5)   
                 namej <- x.names[[j]]
             fp.out(namej," ", " ", pos = pos)
-            fp.out("", round(fit.fitj$dev0, 3), " ", pos = pos)
-            fp.out("", round(fit.fitj$dev1, 3), "1", pos = pos)
-            fp.out("", round(fit.fitj$dev2, 3), fit.fitj$pwr2, pos = pos)
-            fp.out("", round(fit.fitj$dev4, 3), fit.fitj$pwr4, pos = pos)
+            fp.out("        ", round(fit.fitj$dev0, 3), " ", pos = pos)
+            fp.out("        ", round(fit.fitj$dev1, 3), "1", pos = pos)
+            fp.out("        ", round(fit.fitj$dev2, 3), fit.fitj$pwr2, pos = pos)
+            fp.out("        ", round(fit.fitj$dev4, 3), fit.fitj$pwr4, pos = pos)
 # best fit
 #     pos <- c(0, 3, 5) 
 #     fp.out("selected", round(best.fitj$dev, 3), pwrsj, pos = pos)

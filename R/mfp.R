@@ -1,9 +1,9 @@
-mfp <- function (formula = formula(data), data = parent.frame(), family = gaussian, 
+mfp <- function (formula = formula(data), data = parent.frame(), family = gaussian, method = c("efron", "breslow"),
     subset = NULL, na.action = na.omit, init = NULL, alpha = 0.05, select = 1, verbose = FALSE, 
     x = TRUE, y = TRUE) 
 {
 #
-# Version 1.3     27.03.2005
+# Version 1.3.1     21.09.2005
 #
     call <- match.call()
     if (is.character(family)) 
@@ -25,7 +25,7 @@ mfp <- function (formula = formula(data), data = parent.frame(), family = gaussi
         terms(formula, special)
     else terms(formula, special, data = data)
     m$formula <- Terms
-    m$alpha <- m$select <- m$scale <- m$family <- m$verbose <- NULL
+    m$alpha <- m$select <- m$scale <- m$family <- m$method <- m$verbose <- NULL
     m[[1]] <- as.name("model.frame")
     m <- eval(m, sys.parent())
     Y <- model.extract(m, "response")
@@ -93,7 +93,7 @@ if(cox){
     } else {
         names <- dimnames(X)[[2]]
         tab <- table(assign)
-        xnames <- rep(attr(Terms, "term.labels"),tab)
+        xnames <- rep(attr(Terms, "term.labels")[-fp.xpos],tab)
 	}
 #    unlist(lapply(m, attr, "name"))
 #
@@ -107,7 +107,7 @@ if(cox){
             stop("The data must be right censored")
         X <- X[, -1, drop = FALSE]
         control <- coxph.control()
-        method <- "efron"
+	    method <- match.arg(method)
         fit <- mfp.fit(X, Y, TRUE, FALSE, df.list, scale.list, 
             alpha.list, select.list, verbose = verbose, xnames = xnames,
 			strata = strats, offset = offset, init, control, weights = weights, 
@@ -203,7 +203,9 @@ if(length(tvars1)) {      # are some vars selected?
 	{
 	  if(fptable$power1[iv]!=0) 
 	  {
-		if(fptable$power2[iv]==as.character(fptable$power1[iv]) | fptable$power2[iv]==0) 
+		if(fptable$power2[iv]==as.character(fptable$power1[iv])) 
+		   tvars[iv] <- paste("I(",tvars[iv], "^",fptable$power1[iv], ")+I(",tvars[iv], "^",fptable$power1[iv], "*log(",tvars[iv],"))",sep="", collapse="")
+		else if(fptable$power2[iv]==0) 
 		   tvars[iv] <- paste("I(",tvars[iv], "^",fptable$power1[iv], ")+log(",tvars[iv],")",sep="", collapse="")
 	    else 
 		   tvars[iv] <- paste("I(",tvars[iv], "^",fptable$power1[iv], ")+I(",tvars[iv], "^",fptable$power2[iv],")",sep="", collapse="")
@@ -221,6 +223,10 @@ if(length(tvars1)) {      # are some vars selected?
     if(length(vars[-fp.pos])) {
 	 tv <- pmatch(vars[-fp.pos], tvars[iv])
      tvars[iv] <- vars[-fp.pos][which(!is.na(tv))]
+	} 
+    if(length(fp.pos)==0 & length(vars)) {
+	 tv <- pmatch(vars, tvars[iv])
+     tvars[iv] <- vars[which(!is.na(tv))]
 	} 
   }
 }

@@ -1,3 +1,7 @@
+21.09.2005	1.3.1	Output corrected for FP2 with equal powers
+			mfp now works even without any FP call
+			New argument 'method' to select method for tie handling in Cox models
+			Vignette updated.
 01.05.2005	1.3.0	Changes in the primary ordering of variables
 			Scaling changed
 			Likelihood ratio tests are now used for all selections
@@ -7,5 +11,4 @@
 04.08.2004  	1.2.2	plot.mfp changed: new argument `var'.
 			New dataset `bodyfat' to be used as an example for linear regression.
 			Vignette included.
-
 31.07.2004	1.2.1	Original port

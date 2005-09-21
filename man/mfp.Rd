@@ -7,7 +7,7 @@ the outcome. The model may be a generalized linear model or a proportional
 hazards (Cox) model.
 }
 \usage{
-	mfp(formula, data, family = gaussian, subset, na.action, init, alpha=0.05,
+	mfp(formula, data, family = gaussian, method = c("efron", "breslow"), subset, na.action, init, alpha=0.05,
 		select=1, verbose=FALSE, x = TRUE, y = TRUE)
 }
 
@@ -27,6 +27,10 @@ hazards (Cox) model.
 	Families supported are gaussian, binomial, poisson, Gamma,
 	inverse.gaussian and quasi.  Additionally Cox models are specified
 	using "cox".}
+\item{method}{
+	a character string specifying the method for tie handling. This argument is 
+	used for Cox models only and has no effect for other model families.
+        See 'coxph' for details.}
 \item{subset}{
 	expression saying which subset of the rows of the data should be used
 	in the fit.  All observations are included by default.}
