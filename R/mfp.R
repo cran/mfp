@@ -3,7 +3,7 @@ mfp <- function (formula = formula(data), data = parent.frame(), family = gaussi
     x = TRUE, y = TRUE) 
 {
 #
-# Version 1.3.1     21.09.2005
+# Version 1.3.2     21.12.2005
 #
     call <- match.call()
     if (is.character(family)) 
@@ -155,6 +155,7 @@ if(cox){
         }
     }
 # back-transformation
+#                     vielleicht doch nicht?
 param <- fp.rescale(fit)
 fit$coefficients <- param$coefficients
 fit$var <- param$var
@@ -193,7 +194,8 @@ if(length(tvars1)) {      # are some vars selected?
  scale <- fit$scale[spos,,drop=FALSE]
  fpos <- match(tvars1,dimnames(fit$fptable)[[1]])
  fptable <- fit$fptable[fpos,,drop=FALSE]
- tvars <- ifelse(scale[,1]!=0, paste("(",tvars1,"+",scale[,1],")",sep=""), tvars1)
+ tvars <- ifelse(scale[,1]!=0, paste("(",tvars1,"+",scale[,1],")",sep=""), tvars1)  # shift
+ tvars <- ifelse(scale[,2]!=1, paste("(",tvars,"/",scale[,2],")",sep=""), tvars)  # scale
  for(iv in seq(tvars)) {     # if so, then work along 
  tv <- match(tvars1[iv], vars[fp.pos])
   if(length(tv)) if(!is.na(tv))  # are there fps selected?

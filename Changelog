@@ -1,3 +1,4 @@
+21.12.2005	1.3.2	Scaling of variables is added to model fit used for output component 'fit'. 
 21.09.2005	1.3.1	Output corrected for FP2 with equal powers
 			mfp now works even without any FP call
 			New argument 'method' to select method for tie handling in Cox models

@@ -1,5 +1,8 @@
 print.mfp <- function (x, digits = max(options()$digits - 4, 3), ...) 
 {
+#
+#   Version 1.3   27.03.2005
+#
     if (!is.null(cl <- x$call)) {
         cat("Call:\n")
         dput(cl)
