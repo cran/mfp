@@ -1,9 +1,7 @@
 fp.fit <- function(X, Y, df, dfr, cox, gauss, shift, scale, ...)
 {
 #
-# Version 1.3     27.03.2005
-#
-# df defines Df of test and also degree of FP to test (df=1: linear, df=2: FP1, df=4: FP2)
+# df defines DegreesOfFreedom of test and also degree of FP to test (df=1: linear, df=2: FP1, df=4: FP2)
 #
     X <- X[,apply(X, 2, function(x) !all(x==0)), drop=FALSE]    # to avoid numerical problems
     x <- X[, 1]                         # x is first column of X	# induced by fp.gen if df=0

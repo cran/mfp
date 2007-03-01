@@ -8,7 +8,7 @@ hazards (Cox) model.
 }
 \usage{
 	mfp(formula, data, family = gaussian, method = c("efron", "breslow"), subset, na.action, init, alpha=0.05,
-		select=1, verbose=FALSE, x = TRUE, y = TRUE)
+		select = 1, maxits = 20, keep = NULL, rescale = TRUE, verbose = FALSE, x = TRUE, y = TRUE)
 }
 
 \arguments{
@@ -46,12 +46,18 @@ hazards (Cox) model.
  \item{select}{
 	sets the variable selection level for all predictors.  Values for
 	individual predictors may be changed via the fp function in the formula.}
+ \item{maxits}{
+	maximum number of iterations for the backfitting stage.}
+ \item{keep}{
+	keep one or more variables in the model. The selection level for these variables will be set to 1.}
+ \item{rescale}{
+	logical; uses re-scaling to show the parameters for covariates on their original scale (default TRUE).}
  \item{verbose}{
-	run in verbose mode.}
+	logical; run in verbose mode (default FALSE).}
  \item{x}{
-	return the design matrix in the model object?}
+	logical; return the design matrix in the model object?}
  \item{y}{
-	return the response in the model object?}
+	logical; return the response in the model object?}
 }
 \value{
 	an object of class \code{mfp} is returned which either inherits from both glm
@@ -121,8 +127,19 @@ hazards (Cox) model.
 	glm models should not be specified without an intercept term as the
 	software does not yet allow for that possibility.}
 \references{
-	Royston, P. and Altman, D. (1994) Regression using fractional polynomials
-		of continuous covariates. \emph{Appl Stat.} 3: 429--467.}
+	Ambler G, Royston P (2001) Fractional polynomial model selection procedures: 
+		investigation of Type I error rate. \emph{Journal of Statistical Simulation 
+		and Computation} 69: 89--108.
+		
+	Benner A (2005) mfp: Multivariable fractional polynomials. \emph{R News} 5(2): 20--23.
+	
+	Royston P, Altman D (1994) Regression using fractional polynomials
+		of continuous covariates. \emph{Appl Stat.} 3: 429--467.
+		
+	Sauerbrei W, Royston P (1999) Building multivariable prognostic and diagnostic models: 
+		transformation of the predictors by using fractional polynomials. \emph{Journal 
+		of the Royal Statistical Society (Series A)} 162: 71--94.
+	}
     
 \seealso{
 	mfp.object, fp, plot.fp, glm}

@@ -1,9 +1,9 @@
 mfp <- function (formula = formula(data), data = parent.frame(), family = gaussian, method = c("efron", "breslow"),
-    subset = NULL, na.action = na.omit, init = NULL, alpha = 0.05, select = 1, verbose = FALSE, 
+    subset = NULL, na.action = na.omit, init = NULL, alpha = 0.05, select = 1, maxits = 20, keep = NULL, rescale = TRUE, verbose = FALSE, 
     x = TRUE, y = TRUE) 
 {
 #
-# Version 1.3.2     21.12.2005
+#
 #
     call <- match.call()
     if (is.character(family)) 
@@ -79,7 +79,12 @@ if(cox){
         fp.pos <- fp.pos - 1
         fp.data <- m[, fp.mpos, drop = FALSE]
         df.list[fp.pos] <- unlist(lapply(fp.data, attr, "df"))
-        scale.list[fp.pos] <- unlist(lapply(fp.data, attr, "scale"))
+		if(length(tmp.scale <- unlist(lapply(fp.data, attr, "scale")))!=length(fp.pos)) {
+			stop("scale must be given as TRUE or FALSE.")
+		} else { 
+			if(all(tmp.scale %in% c(0,1))) scale.list[fp.pos] <- tmp.scale
+				 else stop("scale must be given as TRUE or FALSE.")
+		}
         alpha.list[fp.pos] <- unlist(lapply(fp.data, attr, "alpha"))
         alpha.list[sapply(alpha.list, is.na)] <- alpha
         select.list[fp.pos] <- unlist(lapply(fp.data, attr, "select"))
@@ -95,7 +100,9 @@ if(cox){
         tab <- table(assign)
         xnames <- rep(attr(Terms, "term.labels")[-fp.xpos],tab)
 	}
-#    unlist(lapply(m, attr, "name"))
+#  need some variables to be kept in the model
+	if(!is.null(keep))
+		for(ik in keep) select.list[grep(ik, xnames)] <- 1
 #
 # fit cox-mfp model:
 #
@@ -109,7 +116,7 @@ if(cox){
         control <- coxph.control()
 	    method <- match.arg(method)
         fit <- mfp.fit(X, Y, TRUE, FALSE, df.list, scale.list, 
-            alpha.list, select.list, verbose = verbose, xnames = xnames,
+            alpha.list, select.list, verbose = verbose, xnames = xnames, maxits = maxits,
 			strata = strats, offset = offset, init, control, weights = weights, 
             method = method, rownames = row.names(m))
         if (is.character(fit)) {
@@ -128,7 +135,7 @@ if(cox){
         gauss <- (family$family == "gaussian")
         fit <- mfp.fit(X, Y, FALSE, gauss, df.list, scale.list, 
             alpha.list, select.list, verbose = verbose, family = family, 
-            xnames = xnames)
+            xnames = xnames, maxits = maxits)
         attr(fit, "class") <- c("mfp", "glm", "lm")
     }
 # compute dispersion
@@ -154,11 +161,14 @@ if(cox){
             fit$var <- dispersion * covmat.unscaled
         }
     }
+#
 # back-transformation
 #                     vielleicht doch nicht?
-param <- fp.rescale(fit)
-fit$coefficients <- param$coefficients
-fit$var <- param$var
+	if(rescale) {
+		param <- fp.rescale(fit) 
+		fit$coefficients <- param$coefficients
+		fit$var <- param$var
+	}
 # Wald test (Coxph)
     if (cox) {
         if (length(fit$coefficients)) {
@@ -232,6 +242,7 @@ if(length(tvars1)) {      # are some vars selected?
 	} 
   }
 }
+tvars <- unique(tvars) # remove replicates of factors
 if(length(pstvars)) # cox - strata?
  rhs <- paste(c(stvars[pstvars],tvars), collapse="+")
 else
@@ -248,5 +259,29 @@ if(cox) {
  fit$fit <- glm(formula = formula, family = family, data = data, subset = subset, na.action = na.action, x = x, y = y)
  fit$qr <- fit$fit$qr; fit$R <- fit$fit$R;  fit$effects <- fit$fit$effects
 }
+#
+# Transformations of covariates
+#
+	fit$trafo <- data.frame(formula = rep(".",length(unique(vars))), row.names = unique(vars), stringsAsFactors = FALSE)
+	if(length(tvars1)) 
+		for(iv in seq(unique(vars))) {
+			sel <- grep(unique(vars)[iv], tvars)
+			if(length(sel)) fit$trafo$formula[iv] <- as.character(tvars[sel])
+		}
+	if(verbose) {
+		cat("\nTransformations of covariates:\n"); print(fit$trafo); cat("\n")
+	}
+#
+# Deviance table
+#	
+	if(verbose) {
+		cat("\nDeviance table:")
+		cat("\n \t\t Resid. Dev")
+		cat("\nNull model\t", fit$dev.null)
+		cat("\nLinear model\t", fit$dev.lin)
+		cat("\nFinal model\t", fit$dev)
+		cat("\n")
+	}
+#
 fit
 }

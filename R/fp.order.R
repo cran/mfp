@@ -1,10 +1,7 @@
 fp.order <- function(x, y, cox, gauss, xnames, ...)
 {
 #
-# Version 1.3     27.03.2005
-#
-# Returns ordering of input variables
-# by LR test ranking via one step backward selection
+# Provides ordering of input variables by LR test ranking via one step backward selection
 #
     int <- as.numeric(!cox)
     nx <- ncol(x); nobs <- nrow(x)
@@ -18,19 +15,20 @@ fp.order <- function(x, y, cox, gauss, xnames, ...)
         for(i in unique(xnames)) {
             ld <- sum(xnames==i)
             ll <- fitter(x[,xnames!=i, drop=FALSE], y, ...)$loglik[2]
-            p.value[xnames==i] <- pchisq(2*(fit$loglik[2]-ll), df=ld, lower=FALSE)
+            p.value[xnames==i] <- pchisq(2*(fit$loglik[2]-ll), df=ld, lower.tail=FALSE)
         }
         deviance <- -2 * fit$loglik
     }
     else {
         fit <- glm.fit(x, y, ...)    # full model
 		df.r <- fit$df.residual
-        dispersion <- if (gauss) {
-          if (df.r > 0) 
-			sum(fit$residuals^2)/df.r
-		  else Inf
-        }
-        else 1
+        dispersion <- if (gauss) 
+						{
+							if (df.r > 0) 
+								sum(fit$residuals^2)/df.r
+							else Inf
+						}
+						else 1
 	    dev.full <- fit$deviance
 	    dfs.full <- fit$df.residual
 		ns <- length(xnames)
@@ -47,8 +45,8 @@ fp.order <- function(x, y, cox, gauss, xnames, ...)
         deviance <- c(fit$null.deviance, fit$deviance)
 	}
 # dev.full linear
-#	x.order <- order(p.value[(1 + int):nx])
+#
 	x.order <- order(p.value)
-# print(cbind(xnames, dev, ld, p.value))
-    return(list(order = x.order, dev = deviance))
+#
+    return(list(order = x.order, dev = deviance, df=c(nobs, nobs-nx)))
 }

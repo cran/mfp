@@ -1,8 +1,5 @@
 print.mfp <- function (x, digits = max(options()$digits - 4, 3), ...) 
 {
-#
-#   Version 1.3   27.03.2005
-#
     if (!is.null(cl <- x$call)) {
         cat("Call:\n")
         dput(cl)
@@ -15,10 +12,26 @@ print.mfp <- function (x, digits = max(options()$digits - 4, 3), ...)
 #
 	cox <- (x$family$family=="Cox")
 #
+# Deviance table
+#
+		cat("\nDeviance table:")
+		cat("\n \t\t Resid. Dev")
+		cat("\nNull model\t", x$dev.null)
+		cat("\nLinear model\t", x$dev.lin)
+		cat("\nFinal model\t", x$dev)
+		cat("\n")
+#
+# Fractional Polynomials
+#
     cat("\nFractional polynomials:\n")
     fptable(x)
 #
     cat("\n")
+#
+# Transformations used
+#
+	cat("\nTransformations of covariates:\n"); print(x$trafo); cat("\n")
+
 #
     savedig <- options(digits = digits)
     on.exit(options(savedig))

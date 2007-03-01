@@ -8,7 +8,7 @@ For Cox models also smoothed martingale based residuals of the null
 model are plotted against the predictor.
 }
    
-\usage{plot.mfp(x, var=NULL, ref.zero=TRUE, ...)}
+\usage{plot.mfp(x, var=NULL, ref.zero=TRUE, ask=TRUE, ...)}
 
 \arguments{
  \item{x}{
@@ -19,6 +19,8 @@ model are plotted against the predictor.
  \item{ref.zero}{
         subtract a constant from X beta before plotting so that the
           reference value of the 'x'-variable yields 'y=0'.}
+ \item{ask}{
+		logical; if 'TRUE', the user is asked before each plot, see 'par(ask=.)'.}
  \item{...}{ 
         further arguments.}
 }

@@ -1,8 +1,5 @@
 fp.gen <- function(x, pwrs, shift = NULL, scale = NULL)
 {
-#
-#   Version 1.3   27.03.2005
-#
     nobs <- length(x)
     pwr1 <- pwrs[1]
     pwr2 <- pwrs[2]

@@ -1,4 +1,4 @@
-plot.mfp <- function (x, var=NULL, ref.zero=TRUE, ...) 
+plot.mfp <- function (x, var=NULL, ref.zero=TRUE, ask=TRUE, ...) 
 {
     if (!inherits(x, "mfp")) 
         stop("This is not an mfp object")
@@ -15,7 +15,7 @@ plot.mfp <- function (x, var=NULL, ref.zero=TRUE, ...)
     for(ip in pick) {
         namex <- name[ip]
         if (is.null(x$X)) 
-            stop("you did not specify x=T in the fit")
+            stop("you did not specify x=TRUE in the fit")
         if (any(dimnames(x$X)[[2]] == namex, na.rm = TRUE)) {
             tmpx <- x$X[, namex]
             ix <- which(dimnames(x$X)[[2]] == namex)
@@ -26,21 +26,26 @@ plot.mfp <- function (x, var=NULL, ref.zero=TRUE, ...)
         ord <- order(tmpx)
     	tmpx <- sort(tmpx)
 #
-        npwrsx <- sum(!is.na(x$powers[ip, ]))
+        npwrsx <- sum(is.finite(x$powers[ip, ]))
         if (npwrsx > 0) {
             if (ip > 1) 
-                posx <- int + sum(!is.na(x$powers[seq(ip-1), ])) + seq(npwrsx)
+                posx <- int + sum(is.finite(x$powers[seq(ip-1), ])) + seq(npwrsx)
             else posx <- int + seq(npwrsx)
-			xtmp <- t(matrix(tmpx,ncol=length(tmpx),nrow=npwrsx,byrow=T)^x$powers[ip,1:npwrsx])
+			xtmp <- t(matrix(tmpx,ncol=length(tmpx),nrow=npwrsx,byrow=TRUE)^x$powers[ip,1:npwrsx])
             fx <- xtmp %*% x$coef[posx]
             if (ref.zero) {
-             xcenter <- mean(tmpx, na.rm=T)^x$powers[ip,1:npwrsx]
+             xcenter <- mean(tmpx, na.rm=TRUE)^x$powers[ip,1:npwrsx]
              ycenter <- as.vector(xcenter %*% x$coef[posx])
              fx <- fx - ycenter
             }
         }
 
 # Plots
+   if (ask) {
+        op <- par(ask = TRUE)
+        on.exit(par(op))
+    }
+#
         if (int) {                      # generalized linear model
             if (npwrsx > 0) {
                 plot(tmpx, fx, xlab = namex, ylab = paste("Linear predictor", 
@@ -48,7 +53,8 @@ plot.mfp <- function (x, var=NULL, ref.zero=TRUE, ...)
                 pres <- x$residuals[ord] + fx
                 plot(tmpx, pres, xlab = namex, ylab = "Partial residuals", 
                   ...)
-                fl <- lowess(tmpx, pres, iter = 0)
+				ok <- is.finite(tmpx) & is.finite(pres)
+                fl <- lowess(tmpx[ok], pres[ok], iter = 0)
                 lines(fl$x, fl$y, lwd = 1, col = "red")
             }
         }
@@ -56,10 +62,11 @@ plot.mfp <- function (x, var=NULL, ref.zero=TRUE, ...)
             require(survival)
 # Martingale residuals
             x0 <- coxph(x$y ~ 1)
-            res0 <- resid(x0, type = "mart")
+            res0 <- resid(x0, type = "mart")[ord]
             plot(tmpx, res0, xlab = namex, ylab = "Martingale residuals", 
                 type = "p", ...)
-            fl <- lowess(tmpx, res0[ord], iter = 0)
+			ok <- is.finite(tmpx) & is.finite(res0)
+			fl <- lowess(tmpx[ok], res0[ok], iter = 0)
             lines(fl$x, fl$y, lwd = 1, col = "red")
 # Fitted function
             if (npwrsx > 0) {
@@ -68,7 +75,8 @@ plot.mfp <- function (x, var=NULL, ref.zero=TRUE, ...)
                 pres <- x$residuals[ord] + fx
                 plot(tmpx, pres, xlab = namex, ylab = "Partial residuals", 
                   ...)
-                fl <- lowess(tmpx, pres, iter = 0)
+				ok <- is.finite(tmpx) & is.finite(pres)
+                fl <- lowess(tmpx[ok], pres[ok], iter = 0)
                 lines(fl$x, fl$y, lwd = 1, col = "red")
             }
         }

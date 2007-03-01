@@ -10,23 +10,19 @@
   This data frame contains the observations of 686 women:
   \describe{
     \item{id}{patient id 1...686.}
-    \item{htreat}{hormonal therapy, a factor at two levels \code{0} (no) and
-\code{1} (yes).}
+    \item{htreat}{hormonal therapy, a factor at two levels \code{0} (no) and \code{1} (yes).}
     \item{age}{of the patients in years.}
     \item{menostat}{menopausal status, a factor at two levels \code{1} 
 (premenopausal) and \code{2} (postmenopausal).}
     \item{tumsize}{tumor size (in mm).}
-    \item{tumgrad}{tumor grade, a ordered factor at levels \code{1 < 2 <
-3}.}
+    \item{tumgrad}{tumor grade, a ordered factor at levels \code{1 < 2 < 3}.}
     \item{posnodal}{number of positive nodes.}
     \item{prm}{progesterone receptor (in fmol).}
     \item{esm}{estrogen receptor (in fmol).}
     \item{rfst}{recurrence free survival time (in days).}
-    \item{cens}{censoring indicator (0- censored, 1- event).}
+    \item{cens}{censoring indicator (\code{0} censored, \code{1} event).}
   }
 }
-\source{
-  \url{http://www.blackwellpublishers.com/rss/Volumes/A162p1.htm}
 }
 \references{
   M. Schumacher, G. Basert, H. Bojar,  K. Huebner, M. Olschewski, 
