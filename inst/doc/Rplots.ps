@@ -26,8 +26,8 @@
 /c   { newpath 0 360 arc } def
 /r   { 4 2 roll moveto 1 copy 3 -1 roll exch 0 exch rlineto 0 rlineto -1 mul 0 exch rlineto closepath } def
 /p1  { stroke } def
-/p2  { gsave bg setrgbcolor fill grestore newpath } def
-/p3  { gsave bg setrgbcolor fill grestore stroke } def
+/p2  { gsave bg fill grestore newpath } def
+/p3  { gsave bg fill grestore stroke } def
 /t   { 6 -2 roll moveto gsave rotate
        ps mul neg 0 2 1 roll rmoveto
        1 index stringwidth pop
@@ -81,7 +81,7 @@ dup length dict begin
 %%Page: 1 1
 bp
 18.00 18.00 823.89 577.28 cl
-0 0 0 rgb
+0 setgray
 0.75 setlinewidth
 [] 0 setdash
 1 setlinecap
@@ -170,7 +170,7 @@ np
 o
 18.00 18.00 823.89 577.28 cl
 /ps 12 def /Font1 findfont 12 s
-0 0 0 rgb
+0 setgray
 435.34 36.72 (Time \(years\)) .5 0 0 t
 30.96 304.84 (Recurrence free survival rate) .5 0 90 t
 77.04 91.44 793.65 518.24 cl
@@ -758,7 +758,7 @@ ep
 bp
 56.02 56.02 277.13 567.77 cl
 56.02 56.02 277.13 567.77 cl
-0 0 0 rgb
+0 setgray
 0.75 setlinewidth
 [] 0 setdash
 1 setlinecap
@@ -1451,7 +1451,7 @@ bp
 253.62 217.42 1.78 c p1
 268.94 247.14 1.78 c p1
 18.00 18.00 823.89 577.28 cl
-0 0 0 rgb
+0 setgray
 0.75 setlinewidth
 [] 0 setdash
 1 setlinecap
@@ -1530,7 +1530,7 @@ np
 o
 18.00 18.00 286.63 577.28 cl
 /ps 8 def /Font1 findfont 8 s
-0 0 0 rgb
+0 setgray
 166.57 19.90 (posnodal) .5 0 0 t
 25.60 311.89 (Martingale residuals) .5 0 90 t
 56.02 56.02 277.13 567.77 cl
@@ -2230,7 +2230,7 @@ np
 o
 324.65 56.02 545.76 567.77 cl
 324.65 56.02 545.76 567.77 cl
-0 0 0 rgb
+0 setgray
 0.75 setlinewidth
 [] 0 setdash
 1 setlinecap
@@ -2925,7 +2925,7 @@ np
 15.32 -360.94 l
 o
 18.00 18.00 823.89 577.28 cl
-0 0 0 rgb
+0 setgray
 0.75 setlinewidth
 [] 0 setdash
 1 setlinecap
@@ -3009,12 +3009,12 @@ np
 o
 286.63 18.00 555.26 577.28 cl
 /ps 8 def /Font1 findfont 8 s
-0 0 0 rgb
+0 setgray
 435.20 19.90 (posnodal) .5 0 0 t
 294.23 311.89 (Linear predictor) .5 0 90 t
 593.28 56.02 814.39 567.77 cl
 593.28 56.02 814.39 567.77 cl
-0 0 0 rgb
+0 setgray
 0.75 setlinewidth
 [] 0 setdash
 1 setlinecap
@@ -3707,7 +3707,7 @@ o
 790.88 299.56 1.78 c p1
 806.20 158.83 1.78 c p1
 18.00 18.00 823.89 577.28 cl
-0 0 0 rgb
+0 setgray
 0.75 setlinewidth
 [] 0 setdash
 1 setlinecap
@@ -3786,7 +3786,7 @@ np
 o
 555.26 18.00 823.89 577.28 cl
 /ps 8 def /Font1 findfont 8 s
-0 0 0 rgb
+0 setgray
 703.83 19.90 (posnodal) .5 0 0 t
 562.86 311.89 (Partial residuals) .5 0 90 t
 593.28 56.02 814.39 567.77 cl

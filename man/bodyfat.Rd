@@ -1,6 +1,5 @@
 \name{bodyfat}
 \alias{bodyfat}
-\non_function{}
 \title{ percentage of body fat determined by underwater weighing }
 \usage{data(bodyfat)}
 \description{
