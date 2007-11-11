@@ -17,17 +17,20 @@ mfp <- function (formula = formula(data), data = parent.frame(), family = gaussi
     cox <- (family$family == "Cox")
     if (cox) 
         require(survival)
-    m <- match.call(expand = FALSE)
-    temp <- c("", "formula", "data", "weights", "subset", "na.action")
-    m <- m[match(temp, names(m), nomatch = 0)]
+#
+    m2 <- match.call(expand = FALSE)
+    temp2 <- c("", "formula", "data", "weights", "na.action")
+    m2 <- m2[match(temp2, names(m2), nomatch = 0)]
     special <- c("strata", "fp")
     Terms <- if (missing(data)) 
         terms(formula, special)
     else terms(formula, special, data = data)
-    m$formula <- Terms
-    m$alpha <- m$select <- m$scale <- m$family <- m$method <- m$verbose <- NULL
-    m[[1]] <- as.name("model.frame")
-    m <- eval(m, sys.parent())
+    m2$formula <- Terms
+    m2$alpha <- m2$select <- m2$scale <- m2$family <- m2$method <- m2$verbose <- NULL
+    m2[[1]] <- as.name("model.frame")
+    m2 <- eval(m2, parent.frame())
+	if(missing(subset)) m <- m2 else m <- m2[subset,]
+#
     Y <- model.extract(m, "response")
     weights <- model.extract(m, "weights")
     offset <- attr(Terms, "offset")
@@ -70,6 +73,7 @@ if(cox){
     select.list <- rep(select, nx)
     fp.pos <- grep("fp", dimnames(X)[[2]])
     fp.mpos <- attributes(Terms)$specials$fp
+#
     if(cox) 
 	 fp.xpos <- unlist(attributes(Terms)$specials) - 1
 	else
@@ -77,6 +81,7 @@ if(cox){
 	assign <- attr(X, "assign")[-1]
     if (length(fp.pos) > 0) {
         fp.pos <- fp.pos - 1
+	    if(!missing(subset)) for(im in fp.mpos) attributes(m[,im]) <- attributes(m2[,im])
         fp.data <- m[, fp.mpos, drop = FALSE]
         df.list[fp.pos] <- unlist(lapply(fp.data, attr, "df"))
 		if(length(tmp.scale <- unlist(lapply(fp.data, attr, "scale")))!=length(fp.pos)) {
@@ -253,10 +258,19 @@ formula <- eval(parse(text=paste(lhs,"~ 1")))
 }
 fit$formula <- formula
 fit$call <- call
+#
+mod <- match.call(expand = FALSE)
+temp <- c("", "formula", "data", "method", "subset", "na.action", "x", "y")
+mod <- mod[match(temp, names(mod), nomatch = 0)]
+mod$formula <- formula
+if (missing(data)) mod[[length(mod)+1]] <- eval(parse(text="data=parent.frame()"))
+#
 if(cox) {
- fit$fit <- coxph(formula=formula, data=data, subset = subset, na.action = na.action, init = init, method = method, x = x, y = y)
+ mod[[1]] <- as.name("coxph")
+ fit$fit <- eval(mod)
 } else {
- fit$fit <- glm(formula = formula, family = family, data = data, subset = subset, na.action = na.action, x = x, y = y)
+ mod[[1]] <- as.name("glm")
+ fit$fit <- eval(mod)
  fit$qr <- fit$fit$qr; fit$R <- fit$fit$R;  fit$effects <- fit$fit$effects
 }
 #

@@ -1,3 +1,4 @@
+11.11.2007	1.4.2	Minor corrections to use 'subset' properly and to allow to ignore 'data'. 
 01.03.2007	1.4.0	Data set 'GBSG' from the JRSS-A paper replaced by its Stata version. 
 			'rescale' argument added to function call.
 			'keep' argument added to function call.
