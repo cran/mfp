@@ -22,7 +22,6 @@
     \item{cens}{censoring indicator (\code{0} censored, \code{1} event).}
   }
 }
-}
 \references{
   M. Schumacher, G. Basert, H. Bojar,  K. Huebner, M. Olschewski, 
   W. Sauerbrei, C. Schmoor, C. Beyerle, R.L.A. Neumann and H.F. Rauschecker

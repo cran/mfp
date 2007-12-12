@@ -10,6 +10,4 @@
    
 \usage{cox()}
 
-}
-
 \keyword{ }

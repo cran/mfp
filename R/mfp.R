@@ -211,6 +211,7 @@ if(length(tvars1)) {      # are some vars selected?
  fptable <- fit$fptable[fpos,,drop=FALSE]
  tvars <- ifelse(scale[,1]!=0, paste("(",tvars1,"+",scale[,1],")",sep=""), tvars1)  # shift
  tvars <- ifelse(scale[,2]!=1, paste("(",tvars,"/",scale[,2],")",sep=""), tvars)  # scale
+#
  for(iv in seq(tvars)) {     # if so, then work along 
  tv <- match(tvars1[iv], vars[fp.pos])
   if(length(tv)) if(!is.na(tv))  # are there fps selected?
@@ -228,7 +229,7 @@ if(length(tvars1)) {      # are some vars selected?
 		   tvars[iv] <- paste("I(",tvars[iv], "^",fptable$power1[iv], ")+I(",tvars[iv], "^",fptable$power2[iv],")",sep="", collapse="")
       } else {
 		if(fptable$power2[iv]==0) 
-		   tvars[iv] <- paste("log(",tvars[iv],")",sep="", collapse="")
+		   tvars[iv] <- paste("log(",tvars[iv], ")+I(log(",tvars[iv],")^2)",sep="", collapse="")
 	    else 
 		   tvars[iv] <- paste("log(",tvars[iv], ")+I(",tvars[iv], "^",fptable$power2[iv],")",sep="", collapse="")
 	  }
@@ -247,6 +248,7 @@ if(length(tvars1)) {      # are some vars selected?
 	} 
   }
 }
+#
 tvars <- unique(tvars) # remove replicates of factors
 if(length(pstvars)) # cox - strata?
  rhs <- paste(c(stvars[pstvars],tvars), collapse="+")
