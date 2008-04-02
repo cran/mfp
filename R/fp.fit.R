@@ -27,16 +27,13 @@ fp.fit <- function(X, Y, df, dfr, cox, gauss, shift, scale, ...)
 #
 # Null and linear models
 #
-        fit <- fitter(X, Y, ...)
-		if(!cox) {
-		  df.r <- fit$df.residual
-          dispersion <- if (gauss) {
-            if (df.r > 0) 
-			   sum(fit$residuals^2)/df.r
+	fit <- fitter(X, Y, ...)
+
+	dispersion <- if (gauss) {
+			if (fit$df.residual > 0) sum(fit$residuals^2)/fit$df.residual
 			else Inf
-		  }
-           else 1
-         }
+			}
+			else 1
 #
     dev <- (-2)^cox * fit[[dv]]        # dev1: Full model resid deviance
     dev1 <- dev[n]
@@ -89,17 +86,14 @@ fp.fit <- function(X, Y, df, dfr, cox, gauss, shift, scale, ...)
 #
 
 # Compute -log Likelihood
-if(gauss) {
-	wt <- rep(1, nrow(X)) # actually use equal weights only
-    dev <- sum(wt) * (log(dev/sum(wt) * 2 * pi) + 1) + 2
-}
-#    if(!cox) {
-#	   dev <- if (gauss)  nobs * log(dev/nobs)  else  dev/dispersion
-#	 }
+ # if(gauss) {
+ #	wt <- rep(1, nrow(X)) # actually use equal weights only
+ #    dev <- sum(wt) * (log(dev/sum(wt) * 2 * pi) + 1) + 2
+ # }
 
 #
     fit <- list(pwr4 = pwr4, pwr2 = pwr2, dev4 = dev[4], dev2 = dev[3], 
-        dev1 = dev[2], dev0 = dev[1], nobs = nobs, dfr = dfr, df = df, 
+        dev1 = dev[2], dev0 = dev[1], dispersion=dispersion, nobs = nobs, dfr = dfr, df = df, 
         gauss = gauss)
     return(fit)
 }

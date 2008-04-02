@@ -1,21 +1,21 @@
 fp.sel <- function(fit, alpha = 0.05, select = 1)
 {
 #
-# Version 1.3     27.03.2005
-#
 # Calculate deviance differences & p-values
 #
-#    dfr <- fit$dfr - fit$df # residual df     # das stimmt doch nicht
-
-# scale: dispersion in fit einfuegen!!!
-    dd.null <- fit$dev0 - min(fit$dev1, fit$dev2, fit$dev4, na.rm=TRUE)  # test drop1 indep of FP
-    p.null <- 1 - pchisq(dd.null, fit$df)
+dispersion <- fit$dispersion 
+#
+# 4 d.f. test at the alpha level of the best-fitting FP2 against the null model
+    dd.null <- fit$dev0 - min(fit$dev1, fit$dev2, fit$dev4, na.rm=TRUE)  
+    p.null <- pchisq(dd.null/dispersion, fit$df, lower.tail=FALSE)
     if(fit$df > 1) {
+# 3 d.f. test at the alpha level of the best-fitting FP2 against a straight line
         dd.lin <- fit$dev1 - min(fit$dev2, fit$dev4, na.rm=TRUE)
-        p.lin <- 1 - pchisq(dd.lin, fit$df - 1)
+        p.lin <- pchisq(dd.lin/dispersion, fit$df - 1, lower.tail=FALSE)
         if(fit$df > 2) {
+# 2 d.f. test at the alpha level of the best-fitting FP2 against the best-fitting FP1
             dd.FP <- fit$dev2 - fit$dev4
-            p.FP <- 1 - pchisq(dd.FP, 2)
+            p.FP <- pchisq(dd.FP/dispersion, 2, lower.tail=FALSE)
         }
         else p.FP <- NA
     }

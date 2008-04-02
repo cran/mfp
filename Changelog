@@ -1,3 +1,4 @@
+05.04.2008	1.4.4	predict.mfp added.  
 12.12.2007	1.4.3	Corrected in object$fit: Use quadratic in ln(X) when powers=(0,0).  
 11.11.2007	1.4.2	Minor corrections to use 'subset' properly and to allow to ignore 'data'. 
 01.03.2007	1.4.0	Data set 'GBSG' from the JRSS-A paper replaced by its Stata version. 

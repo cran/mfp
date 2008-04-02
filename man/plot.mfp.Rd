@@ -8,7 +8,7 @@ For Cox models also smoothed martingale based residuals of the null
 model are plotted against the predictor.
 }
    
-\usage{plot.mfp(x, var=NULL, ref.zero=TRUE, ask=TRUE, ...)}
+\usage{\method{plot}{mfp}(x, var=NULL, ref.zero=TRUE, ask=TRUE, ...)}
 
 \arguments{
  \item{x}{
