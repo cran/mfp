@@ -250,6 +250,7 @@ if(length(tvars1)) {      # are some vars selected?
 }
 #
 tvars <- unique(tvars) # remove replicates of factors
+
 if(length(pstvars)) # cox - strata?
  rhs <- paste(c(stvars[pstvars],tvars), collapse="+")
 else
@@ -265,7 +266,10 @@ mod <- match.call(expand = FALSE)
 temp <- c("", "formula", "data", "method", "subset", "na.action", "x", "y")
 mod <- mod[match(temp, names(mod), nomatch = 0)]
 mod$formula <- formula
-if (missing(data)) mod[[length(mod)+1]] <- eval(parse(text="data=parent.frame()"))
+
+# Thanks to Ulrike Feldmann (June 2008):
+if (missing(data))  mod$data <- eval( parent.frame() )
+
 #
 if(cox) {
  mod[[1]] <- as.name("coxph")
@@ -278,12 +282,15 @@ if(cox) {
 #
 # Transformations of covariates
 #
-	fit$trafo <- data.frame(formula = rep(".",length(unique(vars))), row.names = unique(vars), stringsAsFactors = FALSE)
-	if(length(tvars1)) 
-		for(iv in seq(unique(vars))) {
-			sel <- grep(unique(vars)[iv], tvars)
+	uvars <- unique(vars)
+	fit$trafo <- data.frame(formula = rep(".",length(uvars)), row.names = uvars, stringsAsFactors = FALSE)
+	if(length(tvars1)) {
+		tvars <- tvars[order(tvars1)]
+		for(iv in seq(uvars)) {
+			sel <- grep(uvars[iv], tvars)[1]
 			if(length(sel)) fit$trafo$formula[iv] <- as.character(tvars[sel])
 		}
+	}
 	if(verbose) {
 		cat("\nTransformations of covariates:\n"); print(fit$trafo); cat("\n")
 	}
