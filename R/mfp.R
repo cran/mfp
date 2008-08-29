@@ -27,6 +27,7 @@ mfp <- function (formula = formula(data), data = parent.frame(), family = gaussi
     else terms(formula, special, data = data)
     m2$formula <- Terms
     m2$alpha <- m2$select <- m2$scale <- m2$family <- m2$method <- m2$verbose <- NULL
+	m2$drop.unused.levels <- TRUE  
     m2[[1]] <- as.name("model.frame")
     m2 <- eval(m2, parent.frame())
 	if(missing(subset)) m <- m2 else m <- m2[subset,]
@@ -262,20 +263,22 @@ formula <- eval(parse(text=paste(lhs,"~ 1")))
 fit$formula <- formula
 fit$call <- call
 #
-mod <- match.call(expand = FALSE)
-temp <- c("", "formula", "data", "method", "subset", "na.action", "x", "y")
-mod <- mod[match(temp, names(mod), nomatch = 0)]
-mod$formula <- formula
-
-# Thanks to Ulrike Feldmann (June 2008):
-if (missing(data))  mod$data <- eval( parent.frame() )
-
-#
 if(cox) {
- mod[[1]] <- as.name("coxph")
- fit$fit <- eval(mod)
+	mod <- match.call(expand = FALSE)
+	temp <- c("", "formula", "data", "method", "subset", "na.action", "x", "y")
+	mod <- mod[match(temp, names(mod), nomatch = 0)]
+	mod$formula <- formula
+	mod[[1]] <- as.name("coxph")
+# Thanks to Ulrike Feldmann (June 2008):
+	if (missing(data))  mod$data <- eval( parent.frame() )
+	fit$fit <- eval(mod)
 } else {
- mod[[1]] <- as.name("glm")
+	mod <- match.call(expand = FALSE)
+	temp <- c("", "formula", "data", "method", "family", "subset", "na.action", "x", "y")
+	mod <- mod[match(temp, names(mod), nomatch = 0)]
+	mod$formula <- formula
+	mod[[1]] <- as.name("glm")
+	if (missing(data))  mod$data <- eval( parent.frame() )
  fit$fit <- eval(mod)
  fit$qr <- fit$fit$qr; fit$R <- fit$fit$R;  fit$effects <- fit$fit$effects
 }

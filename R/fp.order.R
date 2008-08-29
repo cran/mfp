@@ -48,5 +48,5 @@ fp.order <- function(x, y, cox, gauss, xnames, ...)
 #
 	x.order <- order(p.value)
 #
-    return(list(order = x.order, dev = deviance, df=c(nobs, nobs-nx)))
+    return(list(order = x.order, dev = deviance, df=c(nobs-int, nobs-nx)))
 }

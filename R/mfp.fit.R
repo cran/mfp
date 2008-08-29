@@ -73,8 +73,6 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
 					mx.old <- pwrs.comp[num,, drop=FALSE]
 					mx.new <- pwrs.mx[-j,, drop=FALSE]
 #
-#####print(cbind(as.vector(mx.old),as.vector(mx.new)))
-#
 					pwrs.stable <- mx.com(mx.old, mx.new)
                 }
                 pwrs.comp[num,] <- pwrs.mx[-j,, drop=FALSE]

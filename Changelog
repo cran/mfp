@@ -1,3 +1,4 @@
+29.08.2008	1.4.6	Minor corrections.  
 21.06.2008	1.4.5	Minor corrections of component 'fit'.  
 05.04.2008	1.4.4	predict.mfp added.  
 12.12.2007	1.4.3	Corrected in object$fit: Use quadratic in ln(X) when powers=(0,0).  
