@@ -41,6 +41,11 @@ if(cox) {
     if(!cox) if (is.null(coef) | is.null(se)) 
         stop("Input is not valid")
     if(!is.null(coef)) {
+	 if(x$rescale & any(x$scale[,1]>0)) {
+			cat("Re-Scaling:\nNon-positive values in some of the covariates. No re-scaling was performed.\n\n")
+			x$rescale <- FALSE
+		}
+#
 	 if (is.null(x$naive.var)) {
         tmp <- cbind(coef, exp(coef), se, coef/se, signif(1 - 
             pchisq((coef/se)^2, 1), digits - 1))
@@ -78,7 +83,11 @@ if(cox) {
     invisible(x)
 } else {
     if (length(coef(x))) {
-        cat("Coefficients")
+		if(x$rescale & any(x$scale[,1]>0)) {
+			cat("Re-Scaling:\nNon-positive values in some of the covariates. No re-scaling was performed.\n\n")
+			x$rescale <- FALSE
+		}
+        if(x$rescale) cat("Rescaled coefficients") else cat("Coefficients")
         if (is.character(co <- x$contrasts)) 
             cat("  [contrasts: ", apply(cbind(names(co), co), 
                 1, paste, collapse = "="), "]")

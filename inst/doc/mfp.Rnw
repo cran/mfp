@@ -225,18 +225,18 @@ plot(pf, col=c("red","green"), xlab="Time (years)", ylab="Recurrence free surviv
 \caption{\label{fig1} Predicted survival curves of the final mfp model for the two strata defined by hormonal treatment (red line = no hormonal treatment, green line = hormonal treatment).}
 \end{figure}
 
-The function \texttt{plot.mfp} draws three plots: 
-smoothed martingale based residuals of the null model, the linear predictor function and a plot of the partial residuals together with a lowess smooth (\ref{fig2}).
-
-\begin{figure}[htb]
-<<FIG2, fig=TRUE, width=14, height=6,echo=FALSE>>=
-par(mfrow=c(1,3),mar=c(4,4,1,1))
-plot(f, var="posnodal", log="x")
-@
-\caption{\label{fig2} Smoothed null model martingale residuals, the plot of the estimated 
-functional form of the influence of the number of positive lymph nodes ({\tt posnodal}) on the log relative hazard of tumor recurrence, 
-and the partial residuals plot for {\tt posnodal}.}
-\end{figure}
+%The function \texttt{plot.mfp} draws three plots: 
+%smoothed martingale based residuals of the null model, the linear predictor function and a plot of the partial residuals together with a lowess smooth (\ref{fig2}).
+%
+%\begin{figure}[htb]
+%<<FIG2, fig=TRUE, width=14, height=6,echo=FALSE>>=
+%par(mfrow=c(1,3),mar=c(4,4,1,1))
+%plot(f, var="posnodal", log="x")
+%@
+%\caption{\label{fig2} Smoothed null model martingale residuals, the plot of the estimated 
+%functional form of the influence of the number of positive lymph nodes ({\tt posnodal}) on the log relative hazard of tumor recurrence, 
+%and the partial residuals plot for {\tt posnodal}.}
+%\end{figure}
 
 \addcontentsline{toc}{section}{References}
 

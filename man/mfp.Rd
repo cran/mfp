@@ -142,7 +142,7 @@ hazards (Cox) model.
 	}
     
 \seealso{
-	mfp.object, fp, plot.fp, glm}
+	mfp.object, fp, glm}
 
 \examples{
 	data(GBSG)

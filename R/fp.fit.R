@@ -90,7 +90,6 @@ fp.fit <- function(X, Y, df, dfr, cox, gauss, shift, scale, ...)
  #	wt <- rep(1, nrow(X)) # actually use equal weights only
  #    dev <- sum(wt) * (log(dev/sum(wt) * 2 * pi) + 1) + 2
  # }
-
 #
     fit <- list(pwr4 = pwr4, pwr2 = pwr2, dev4 = dev[4], dev2 = dev[3], 
         dev1 = dev[2], dev0 = dev[1], dispersion=dispersion, nobs = nobs, dfr = dfr, df = df, 

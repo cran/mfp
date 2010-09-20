@@ -28,7 +28,7 @@ mfp.fit <- function(x, y, cox, gauss, df, scaling, alpha, select, verbose = TRUE
 #
     pwrs.mx <- matrix(c(rep(1, nx), rep(NA, nx)), ncol = 2, byrow=FALSE, 
         dimnames = list(x.names, c("power1", "power2")))    
-    # NA = no power
+    # NA = no power trafo
     pvals.mx <- matrix(rep(NA, nx * 6), ncol = 6, dimnames = list(x.names,
         c("p.null", "p.lin", "p.FP", "power2", "power4.1", "power4.2")))
     scale.mx <- matrix(0:1, ncol = 2, nrow = nx, byrow = TRUE, dimnames = list(x.names, c(

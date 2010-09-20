@@ -24,12 +24,9 @@
 	use pre-transformation scaling to avoid numerical problems (default=TRUE).}
 }
 
-\value{}
-
 \examples{
 \dontrun{
 	fp(x, df = 4, select = 0.05, scale = FALSE)
 }
 }
 
-\keyword{ }

@@ -7,18 +7,18 @@ mfp <- function (formula = formula(data), data = parent.frame(), family = gaussi
 #
     call <- match.call()
     if (is.character(family)) 
-        family <- get(family, mode = "function")
+        family <- get(family, mode = "function", envir = parent.frame())
     if (is.function(family)) 
         family <- family()
     if (is.null(family$family)) {
         print(family)
-        stop("`family' not recognized")
+        stop("'family' not recognized")
     }
     cox <- (family$family == "Cox")
     if (cox) 
         require(survival)
 #
-    m2 <- match.call(expand = FALSE)
+    m2 <- match.call(expand.dots = FALSE)
     temp2 <- c("", "formula", "data", "weights", "na.action")
     m2 <- m2[match(temp2, names(m2), nomatch = 0)]
     special <- c("strata", "fp")
@@ -99,12 +99,20 @@ if(cox){
         names[fp.pos + 1] <- unlist(lapply(fp.data, attr, "name"))
         xnames <- names[-1]
 		tab <- table(assign[-fp.pos])
-        xnames[-fp.pos] <- rep(attr(Terms, "term.labels")[-fp.xpos],tab)
+		if (length(fp.xpos) > 0) {
+			xnames[-fp.pos] <- rep(attr(Terms, "term.labels")[-fp.xpos],tab)
+		} else {
+			xnames[-fp.pos] <- rep(attr(Terms, "term.labels"),tab)
+		}
         dimnames(X)[[2]] <- names
     } else {
         names <- dimnames(X)[[2]]
         tab <- table(assign)
-        xnames <- rep(attr(Terms, "term.labels")[-fp.xpos],tab)
+		if (length(fp.xpos) > 0) {
+			xnames <- rep(attr(Terms, "term.labels")[-fp.xpos],tab)
+		} else {
+			xnames <- rep(attr(Terms, "term.labels"),tab)
+		}
 	}
 #  need some variables to be kept in the model
 	if(!is.null(keep))
@@ -144,6 +152,7 @@ if(cox){
             xnames = xnames, maxits = maxits)
         attr(fit, "class") <- c("mfp", "glm", "lm")
     }
+#
 # compute dispersion
     if (!cox) {
         dispersion <- if (any(fit$family$family == c("poisson", 
@@ -169,7 +178,7 @@ if(cox){
     }
 #
 # back-transformation
-#                     vielleicht doch nicht?
+#  
 	if(rescale) {
 		param <- fp.rescale(fit) 
 		fit$coefficients <- param$coefficients
@@ -264,22 +273,22 @@ fit$formula <- formula
 fit$call <- call
 #
 if(cox) {
-	mod <- match.call(expand = FALSE)
+	mod <- match.call(expand.dots = FALSE)
 	temp <- c("", "formula", "data", "method", "subset", "na.action", "x", "y")
 	mod <- mod[match(temp, names(mod), nomatch = 0)]
 	mod$formula <- formula
 	mod[[1]] <- as.name("coxph")
 # Thanks to Ulrike Feldmann (June 2008):
 	if (missing(data))  mod$data <- eval( parent.frame() )
-	fit$fit <- eval(mod)
+	fit$fit <- eval(mod, parent.frame())
 } else {
-	mod <- match.call(expand = FALSE)
+	mod <- match.call(expand.dots = FALSE)
 	temp <- c("", "formula", "data", "method", "family", "subset", "na.action", "x", "y")
 	mod <- mod[match(temp, names(mod), nomatch = 0)]
 	mod$formula <- formula
 	mod[[1]] <- as.name("glm")
 	if (missing(data))  mod$data <- eval( parent.frame() )
- fit$fit <- eval(mod)
+ fit$fit <- eval(mod, parent.frame())
  fit$qr <- fit$fit$qr; fit$R <- fit$fit$R;  fit$effects <- fit$fit$effects
 }
 #
@@ -297,6 +306,12 @@ if(cox) {
 	if(verbose) {
 		cat("\nTransformations of covariates:\n"); print(fit$trafo); cat("\n")
 	}
+#
+	fit$rescale <- rescale
+#	if(rescale & any(fit$scale[,1]>0)) {
+#		cat("\n\nRe-Scaling:\nNon-positive values in some of the covariates. No re-scaling will be performed.\n\n")
+#		fit$rescale <- FALSE
+#	}
 #
 # Deviance table
 #	
