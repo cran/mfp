@@ -1,7 +1,7 @@
 fp.rescale <- function(x)
 {
 #
-	if(any(x$scale[,1]>0)) 
+	if(any(x$scale[,1]>0) | is.null(x$coefficients)) 
 		return(list(coefficients=x$coefficients, variance=x$var))
 #
 	cox <- x$family["family"] == "Cox"
@@ -9,7 +9,7 @@ fp.rescale <- function(x)
     x$scaled.coefficients <- x$coefficients
     if (length(x$df.final) > 1) {
 		xs <- na.omit(as.vector(t(exp(x$powers*log(x$scale[,2])))))
-		if(cox) A <- diag(1/xs) else A <- diag(c(1,1/xs))
+		if(cox) A <- diag(1/xs, nrow=length(xs)) else A <- diag(c(1,1/xs))
 		# log-trafo
 			scales <- as.vector(t(x$scale[,2]*(!is.na(x$powers)))); scales <- scales[scales>0]
 			logtr <- which(na.omit(as.vector(t(x$powers)==0)))
