@@ -31,7 +31,6 @@ plot.mfp <- function (x, var=NULL, ref.zero=TRUE, what="all", ask=TRUE, ...)
             if (ip > 1) 
                 posx <- int + sum(is.finite(x$powers[seq(ip-1), ])) + seq(npwrsx)
             else posx <- int + seq(npwrsx)
-browser()
 #			xtmp <- t(matrix(tmpx,ncol=length(tmpx),nrow=npwrsx,byrow=TRUE)^x$powers[ip,1:npwrsx])
             px <- predict(x, type="link", se.fit=TRUE)
 			fx <- px$fit
@@ -63,7 +62,6 @@ browser()
             }
         }
         else {                          # Cox proportional hazards model
-            require(survival)
 # Martingale residuals
             x0 <- coxph(x$y ~ 1)
             res0 <- resid(x0, type = "mart")[ord]

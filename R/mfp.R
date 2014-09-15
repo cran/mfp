@@ -15,8 +15,8 @@ mfp <- function (formula = formula(data), data = parent.frame(), family = gaussi
         stop("'family' not recognized")
     }
     cox <- (family$family == "Cox")
-    if (cox) 
-        require(survival)
+#    if (cox) 
+#        require(survival)
 #
     m2 <- match.call(expand.dots = FALSE)
     temp2 <- c("", "formula", "data", "weights", "na.action")

@@ -7,8 +7,9 @@ the outcome. The model may be a generalized linear model or a proportional
 hazards (Cox) model.
 }
 \usage{
-	mfp(formula, data, family = gaussian, method = c("efron", "breslow"), subset, na.action, init, alpha=0.05,
-		select = 1, maxits = 20, keep = NULL, rescale = TRUE, verbose = FALSE, x = TRUE, y = TRUE)
+	mfp(formula, data, family = gaussian, method = c("efron", "breslow"),
+      subset, na.action, init, alpha=0.05, select = 1, maxits = 20,
+      keep = NULL, rescale = TRUE, verbose = FALSE, x = TRUE, y = TRUE)
 }
 
 \arguments{
