@@ -8,8 +8,8 @@ hazards (Cox) model.
 }
 \usage{
 	mfp(formula, data, family = gaussian, method = c("efron", "breslow"),
-      subset, na.action, init, alpha=0.05, select = 1, maxits = 20,
-      keep = NULL, rescale = TRUE, verbose = FALSE, x = TRUE, y = TRUE)
+        subset, na.action, init, alpha=0.05, select = 1, maxits = 20,
+        keep = NULL, rescale = TRUE, verbose = FALSE, x = TRUE, y = TRUE)
 }
 
 \arguments{
@@ -22,17 +22,17 @@ hazards (Cox) model.
  \item{data}{
 	a data frame containing the variables occurring in the formula. If this
 	is missing, the variables should be on the search list.}
-\item{family}{
+ \item{family}{
 	a family object - a list of functions and expressions for defining the
 	link and variance functions, initialization and iterative weights.
 	Families supported are gaussian, binomial, poisson, Gamma,
 	inverse.gaussian and quasi.  Additionally Cox models are specified
 	using "cox".}
-\item{method}{
+ \item{method}{
 	a character string specifying the method for tie handling. This argument is 
 	used for Cox models only and has no effect for other model families.
         See 'coxph' for details.}
-\item{subset}{
+ \item{subset}{
 	expression saying which subset of the rows of the data should be used
 	in the fit.  All observations are included by default.}
  \item{na.action}{

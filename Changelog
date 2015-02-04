@@ -1,6 +1,7 @@
-15.09.2014	1.5.0	New maintainer; 'vignettes' directory added.  
-28.11.2010	1.4.9	Minor corrections in fp.rescale.   
-19.09.2010	1.4.8	Call of final fitted glm/coxph model corrected (parent frame was missing). 
+04.02.2015	1.5.1	Vignette keywords updated.
+15.09.2014	1.5.0	New maintainer; 'vignettes' directory added.
+28.11.2010	1.4.9	Minor corrections in fp.rescale.
+19.09.2010	1.4.8	Call of final fitted glm/coxph model corrected (parent frame was missing).
 01.06.2010	1.4.8	plot.mfp (temporarily) removed. 
 10.05.2010	1.4.8	Correction of rescaling procedure of log trafos in fp.rescale. 
 01.07.2009	1.4.7	summary.mfp added to avoid problems calling summary directly on mfp 
@@ -25,7 +26,8 @@
 			Plot of functional form corrected
 			Print function corrected
 			Value of mfp fit has new component `fit'
-04.08.2004  	1.2.2	plot.mfp changed: new argument `var'.
+04.08.2004	1.2.2	plot.mfp changed: new argument `var'.
 			New dataset `bodyfat' to be used as an example for linear regression.
 			Vignette included.
 31.07.2004	1.2.1	Original port
+

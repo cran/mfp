@@ -1,4 +1,4 @@
-### R code from vignette source 'mfp.Rnw'
+### R code from vignette source 'mfp_vignette.Rnw'
 
 ###################################################
 ### code chunk number 1: preliminaries
@@ -8,45 +8,45 @@ set.seed(20040804)
 
 
 ###################################################
-### code chunk number 2: mfp.Rnw:94-95
+### code chunk number 2: mfp_vignette.Rnw:97-98
 ###################################################
 library(mfp)
 
 
 ###################################################
-### code chunk number 3: mfp.Rnw:105-106
+### code chunk number 3: mfp_vignette.Rnw:108-109
 ###################################################
 str(mfp)
 
 
 ###################################################
-### code chunk number 4: mfp.Rnw:128-129
+### code chunk number 4: mfp_vignette.Rnw:131-132
 ###################################################
 str(fp)
 
 
 ###################################################
-### code chunk number 5: mfp.Rnw:167-169
+### code chunk number 5: mfp_vignette.Rnw:170-172
 ###################################################
 data(GBSG)
 str(GBSG)
 
 
 ###################################################
-### code chunk number 6: mfp.Rnw:194-196
+### code chunk number 6: mfp_vignette.Rnw:197-199
 ###################################################
 f <- mfp(Surv(rfst, cens) ~ strata(htreat)+age+fp(tumsize)+fp(posnodal)+fp(prm)+fp(esm)
         +menostat+tumgrad, family = cox, data = GBSG, select=0.05, verbose=TRUE)
 
 
 ###################################################
-### code chunk number 7: mfp.Rnw:206-207
+### code chunk number 7: mfp_vignette.Rnw:209-210
 ###################################################
 summary(f)
 
 
 ###################################################
-### code chunk number 8: mfp.Rnw:212-213
+### code chunk number 8: mfp_vignette.Rnw:215-216
 ###################################################
 f$fptable
 
