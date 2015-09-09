@@ -220,7 +220,7 @@ The final model uses a second degree fractional polynomial for the number of pos
 
 The value {\tt fit} of the resulting mfp object can be used  for survival curve estimation of the final model fit  (\ref{fig1}).
 
-\begin{figure}[H]
+\begin{figure}[h]
 <<FIG1, fig=TRUE, width=6, height=6, echo=FALSE>>=
 pf <- survfit(f$fit)  
 plot(pf, col=c("red","green"), xlab="Time (years)", ylab="Recurrence free survival rate", xscale=365.25)

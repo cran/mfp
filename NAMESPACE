@@ -1,4 +1,5 @@
 import(stats, graphics, survival)
+importFrom("utils", "getFromNamespace")
 
 export(mfp, fp, cox)
 S3method(predict, mfp)
