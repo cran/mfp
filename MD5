@@ -1,4 +1,4 @@
-6ac65318d536189b56bd2122bda57b8e *DESCRIPTION
+158633b1c0753e24a62a6e6194e34e8a *DESCRIPTION
 dcec00279303037419d85ae24edd2b0b *NAMESPACE
 c265233b1fae7649f1c7a9a3b7063bc7 *NEWS
 bf334d9db2ae266053428d26f6d39c97 *R/cox.R
@@ -19,7 +19,7 @@ adb2223363728963d95d04ea8ba0ba2f *R/print.mfp.R
 aabd5044fa5ac759bb5e7f4a22b6ddf2 *R/summary.mfp.R
 0786991a6c68e747546b8200d09bdb68 *build/vignette.rds
 a236fd42c4c8db17a0ae531dadbfe608 *data/GBSG.rda
-6289017fe7c60e7db535f2d946d23aae *data/bodyfat.rda
+b66571855471c049130e59f256a68401 *data/bodyfat.rda
 eecdd32223fb7503b7e533918934c4f9 *inst/doc/mfp_vignette.R
 536501c10747eafb6684794e9efefaed *inst/doc/mfp_vignette.Rnw
 f522b9132f32a603412f316f2dc6418a *inst/doc/mfp_vignette.pdf
