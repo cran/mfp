@@ -1,18 +1,19 @@
 Package: mfp
+Version: 1.5.2.2
+Date: 2022-01-19
 Title: Multivariable Fractional Polynomials
-Version: 1.5.2.1
-Date: 2015-09-03
-Author: original by Gareth Ambler <gareth@stats.ucl.ac.uk>, modified by Axel Benner <benner@dkfz.de>
-Maintainer: ORPHANED
+Authors@R: c(person("Georg", "Heinze", role=c("cre"), email="georg.heinze@meduniwien.ac.at"), 
+			 person("Gareth", "Ambler", role=c("aut"), email="gareth@stats.ucl.ac.uk"),
+			 person("Axel","Benner", role=c("aut"), email="benner@dkfz.de"))
 Depends: survival
 Description: Fractional polynomials are used to represent curvature in regression models. A key reference is Royston and Altman, 1994.
 License: GPL (>= 2)
+BugReports: https://github.com/georgheinze/mfp/issues/
 NeedsCompilation: no
-Packaged: 2021-12-02 20:50:25 UTC; ripley
+Packaged: 2022-01-20 09:16:15 UTC; Lena
+Author: Georg Heinze [cre],
+  Gareth Ambler [aut],
+  Axel Benner [aut]
+Maintainer: Georg Heinze <georg.heinze@meduniwien.ac.at>
 Repository: CRAN
-Date/Publication: 2021-12-02 20:55:00 UTC
-X-CRAN-Original-Maintainer: Stephan Luecke <s.luecke@dkfz.de>
-X-CRAN-Comment: Orphaned on 2021-12-02 at the request of one of the
-        authors.
- .
- The maintainer being unresponsive.
+Date/Publication: 2022-01-20 19:12:42 UTC

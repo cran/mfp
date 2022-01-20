@@ -1,4 +1,4 @@
-158633b1c0753e24a62a6e6194e34e8a *DESCRIPTION
+ab720fce711570789d334f745fe9be43 *DESCRIPTION
 dcec00279303037419d85ae24edd2b0b *NAMESPACE
 c265233b1fae7649f1c7a9a3b7063bc7 *NEWS
 bf334d9db2ae266053428d26f6d39c97 *R/cox.R
@@ -17,12 +17,12 @@ cf1bea0acdfc370eeef45673716d0d31 *R/mfp.fit.R
 5d6e3c807781dfca48beb318ca361f16 *R/predict.mfp.R
 adb2223363728963d95d04ea8ba0ba2f *R/print.mfp.R
 aabd5044fa5ac759bb5e7f4a22b6ddf2 *R/summary.mfp.R
-0786991a6c68e747546b8200d09bdb68 *build/vignette.rds
+e0272a17b7fe8a1a4626709d832c205d *build/vignette.rds
 a236fd42c4c8db17a0ae531dadbfe608 *data/GBSG.rda
 b66571855471c049130e59f256a68401 *data/bodyfat.rda
 eecdd32223fb7503b7e533918934c4f9 *inst/doc/mfp_vignette.R
 536501c10747eafb6684794e9efefaed *inst/doc/mfp_vignette.Rnw
-f522b9132f32a603412f316f2dc6418a *inst/doc/mfp_vignette.pdf
+892ffd2023625043ae5e6f78109dd8c5 *inst/doc/mfp_vignette.pdf
 2181cb260f2ac5f9b12a1d606dcc5941 *man/GBSG.Rd
 33ac3558930a7bdf6317e2ccfd23d098 *man/bodyfat.Rd
 13f774b9f93c960c34c3efb00ffde0d7 *man/cox.Rd
