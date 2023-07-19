@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Multivariable Fractional Polynomials</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Multivariable Fractional Polynomials</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The <strong>mfp</strong> package is a collection of R <span class="citation">(R Core Team 2022)</span> functions targeted at the use
+of fractional polynomials (FP) for modelling the influence of continuous
+covariates on the outcome in regression models, as introduced by <span class="citation">Royston and Altman (1994)</span> and modified by <span class="citation">Sauerbrei and Royston (1999)</span>. The model may
+include binary, categorical or further continuous covariates which are
+included in the variable selection process but without need of FP
+transformation. It combines backward elimination with a systematic
+search for a ‘suitable’ transformation to represent the influence of
+each continuous covariate on the outcome. An application of
+multivariable fractional polynomials (MFP) in modelling prognostic and
+diagnostic factors in breast cancer is given by <span class="citation">Sauerbrei and Royston (1999)</span>. The stability of
+the models selected is investigated in <span class="citation">Royston
+and Sauerbrei (2003)</span>. Briefly, fractional polynomials models are
+useful when one wishes to preserve the continuous nature of the
+covariates in a regression model, but suspects that some or all of the
+relationships may be non-linear. At each step of a `backfitting’
+algorithm MFP constructs a fractional polynomial transformation for each
+continuous covariate while fixing the current functional forms of the
+other covariates. The algorithm terminates when no more covariate is
+excluded and the functional forms of the continuous covariates do not
+change anymore.</p>
+</div>
+<div id="inventory-of-functions" class="section level2">
+<h2>Inventory of functions</h2>
+<p><strong>mfp.object</strong> is an object representing a fitted
+<strong>mfp</strong> model. Class <strong>mfp</strong> inherits from
+either glm or coxph depending on the type of model fitted. In addition
+to the standard glm/coxph components the following components are
+included in an <strong>mfp</strong> object:</p>
+<ul>
+<li><p><strong>x</strong>: the final FP transformations that are
+contained in the design matrix x. The covariate “z” with 4 df
+(second-degree FP) has corresponding columns “z.1” and “z.2” in x. A
+first-degree FP covariate “z” would have one column “z.1”.</p></li>
+<li><p><strong>powers</strong>: a matrix containing the best FP powers
+for each covariate. If a covariate has less than two powers NAs will
+fill the appropriate cell of the matrix.</p></li>
+<li><p><strong>pvalues</strong>: a matrix containing the P-values from
+the ‘’closed test procedure’’ together with the best powers chosen.
+Briefly p.null is the P-value for the test of inclusion (see mfp), p.lin
+corresponds to the test of nonlinearity and p.FP the test of
+simplification by comparing first degree (FP1) and second degree (FP2)
+transformations. The best first degree FP power (power2) and best second
+degree FP powers (power4.1 and power4.2) are also given. The numbers 2
+and 4 describe the corresponding degrees of freedom.</p></li>
+<li><p><strong>scale</strong>: all covariates are shifted and rescaled
+before being power transformed if nonpositive values are encountered or
+the range of values of the covariates is reasonably large. If x’ would
+be used instead of x where x’ = (x+a)/b the parameters a (shift) and b
+(scale) are contained in the matrix scale.</p></li>
+<li><p><strong>df.initial</strong>: a vector containing the degrees of
+freedom allocated to each covariate corresponding to the degree of FP
+(m=4 for second degree FP, m=2 for first degree FP).</p></li>
+<li><p><strong>df.final</strong>: a vector containing the degrees of
+freedom of each covariate at convergence of the backfitting algorithm
+(m=4 for second degree FP, m=2 for first degree FP, m=1 for
+untransformed variable, m=0 if covariate was excluded).</p></li>
+<li><p><strong>dev</strong>: the deviance of the final model.</p></li>
+<li><p><strong>dev.lin</strong>: the deviance of the model that uses the
+linear predictor of untransformed covariates.</p></li>
+<li><p><strong>dev.null</strong>: the deviance of the null
+model.</p></li>
+<li><p><strong>fptable</strong>: the table of the final fp
+transformations.</p></li>
+<li><p><strong>fit</strong>: a call of the corresponding glm or cox
+model using the selected and (possibly) FP transformed variables of the
+final model.</p></li>
+</ul>
+</div>
+<div id="usage-in-r" class="section level2">
+<h2>Usage in R</h2>
+<p>An <strong>mfp.object</strong> will be created by application of
+function <strong>mfp</strong>.</p>
+<p>A typical call of an mfp model has the form <strong>response <span class="math inline">\(\sim\)</span> terms</strong> where
+<strong>response</strong> is the (numeric) response vector and
+<strong>terms</strong> is a series of terms, separated by <span class="math inline">\(+\)</span> operators, which specifies a linear
+predictor for <strong>response</strong> provided by the
+<strong>formula</strong> argument of the function call.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(mfp)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Loading required package: survival</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">str</span>(mfp)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; function (formula, data, family = gaussian, method = c(&quot;efron&quot;, &quot;breslow&quot;), </span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt;     subset = NULL, na.action = na.omit, init = NULL, alpha = 0.05, select = 1, </span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt;     maxits = 20, keep = NULL, rescale = FALSE, verbose = FALSE, x = TRUE, </span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;     y = TRUE)</span></span></code></pre></div>
+<p>Fractional polynomial terms are indicated by <strong>fp</strong>.</p>
+<p>For <strong>binomial</strong> models the response can also be
+specified as a <strong>factor</strong>. If a Cox proportional hazards
+model is required then the outcome need to be specified using the
+<strong>Surv()</strong> notation.</p>
+<p>The argument <strong>family</strong> describes the error distribution
+and link function to be used in the model. This can be a character
+string naming a family function, a family function or the result of a
+call to a family function.</p>
+<p>Argument <strong>alpha</strong> sets the global FP selection level
+for all covariates. Different selection levels for individual covariates
+can be chosen by using the <strong>fp</strong> function. The variable
+selection level for all covariates is set by <strong>select</strong>.
+Values for individual fractional polynomials may be set using the
+<strong>fp</strong> function.</p>
+<p>The function <strong>fp</strong> defines a fractional polynomial
+object for a single input variable.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">str</span>(fp)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; function (x, df = 4, select = NA, alpha = NA, scale = TRUE)</span></span></code></pre></div>
+<p>In addition to <strong>alpha</strong> and <strong>select</strong> the
+<strong>scale</strong> argument of the <strong>fp</strong> function
+denotes the use of pre-transformation scaling to avoid possible
+numerical problems or for variables with non-positive values.</p>
+<div id="model-selection" class="section level3">
+<h3>Model selection</h3>
+<p>The original Stata implementation of <strong>mfp</strong> uses two
+different selection procedures for a single continuous covariate <span class="math inline">\(x\)</span>, a sequential selection procedure and a
+closed testing selection procedure (<strong>ra2</strong>, <span class="citation">Ambler and Royston (2001)</span>). In the R
+implementation only the <strong>ra2</strong> algorithm is used which is
+also the default in the Stata and SAS implementations of
+<strong>mfp</strong>.</p>
+<p>The <strong>ra2</strong> algorithm is described in <span class="citation">Ambler and Royston (2001)</span> and <span class="citation">Sauerbrei and Royston (2002)</span>. It uses a closed
+test procedure <span class="citation">Marcus, Peritz, and Gabriel
+(1976)</span> which maintains approximately the correct Type I error
+rate for each component test. The procedure allows the complexity of
+candidate models to increase progressively from a prespecified minimum
+(a null model) to a prespecified maximum (an FP) according to an ordered
+sequence of test results.</p>
+<p>The algorithm works as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p>Perform a 4 df test at the <span class="math inline">\(\alpha\)</span> level of the best-fitting
+second-degree FP against the null model. If the test is not significant,
+drop <span class="math inline">\(x\)</span> and stop, otherwise
+continue.</p></li>
+<li><p>Perform a 3 df test at the <span class="math inline">\(\alpha\)</span> level of the best-fitting
+second-degree FP against a straight line. If the test is not
+significant, stop (the final model is a straight line), otherwise
+continue.</p></li>
+<li><p>Perform a 2 df test at the <span class="math inline">\(\alpha\)</span> level of the best-fitting
+second-degree FP against the best-fitting first-degree FP. If the test
+is significant, the final model is the FP with <span class="math inline">\(m=2\)</span>, otherwise the FP with <span class="math inline">\(m=1\)</span>.</p></li>
+</ol>
+<p>The tests in step 1, 2 and 3 are of overall association,
+non-linearity and between a simpler or more complex FP model,
+respectively.</p>
+</div>
+</div>
+<div id="example" class="section level2">
+<h2>Example</h2>
+<div id="cox-proportional-hazards-model" class="section level3">
+<h3>Cox proportional hazards model</h3>
+<p>We use the dataset <strong>GBSG</strong> which contains data from a
+study of the German Breast Cancer Study Group for patients with
+node-positive breast cancer.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">data</span>(GBSG)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">str</span>(GBSG)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    686 obs. of  11 variables:</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;  $ id      : int  1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;  $ htreat  : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 1 2 2 2 1 1 2 1 1 1 ...</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;  $ age     : int  70 56 58 59 73 32 59 65 80 66 ...</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;  $ menostat: Factor w/ 2 levels &quot;1&quot;,&quot;2&quot;: 2 2 2 2 2 1 2 2 2 2 ...</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;  $ tumsize : int  21 12 35 17 35 57 8 16 39 18 ...</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt;  $ tumgrad : Factor w/ 3 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;: 2 2 2 2 2 3 2 2 2 2 ...</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;  $ posnodal: int  3 7 9 4 1 24 2 1 30 7 ...</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt;  $ prm     : int  48 61 52 60 26 0 181 192 0 0 ...</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;  $ esm     : int  66 77 271 29 65 13 0 25 59 3 ...</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;  $ rfst    : int  1814 2018 712 1807 772 448 2172 2161 471 2014 ...</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt;  $ cens    : int  1 1 1 1 1 1 0 0 1 0 ...</span></span></code></pre></div>
+<p>The response variable is recurrence free survival time
+(<strong>Surv(rfst, cens)</strong>). Complete data on 7 prognostic
+factors is available for 686 patients. The median follow-up was about 5
+years, 299 events were observed for recurrence free survival time. We
+use a Cox proportional hazards regression to model the hazard of
+recurrence by the 7 prognostic factors of which 5 are continuous, age of
+the patients in years (<strong>age</strong>), tumor size in mm
+(<strong>tumsize</strong>), number of positive lymphnodes
+(<strong>posnodal</strong>), progesterone receptor in fmol
+(<strong>prm</strong>), estrogen receptor in fmol
+(<strong>esm</strong>); one is binary, menopausal status
+(<strong>menostat</strong>); and one is ordered categorical with three
+levels, tumor grade (<strong>tumgrad</strong>). The additional variable
+<strong>htreat</strong> describes if a hormonal therapy was applied and
+is used as stratification variable.</p>
+<p>We use <strong>mfp</strong> to build a model from the initial set of
+7 covariates using the backfitting model selection algorithm. We set the
+global variable selection level to 0.05 and use the default FP selection
+level.</p>
+<p>By using <strong>fp()</strong> in the model formula a fractional
+polynomial transformation with possibly pre-transformation scaling is
+estimated. This is done here for <strong>tumsize</strong>,
+<strong>posnodal</strong>, <strong>prm</strong>, and
+<strong>esm</strong>. Otherwise a linear form of the unscaled variable
+is used, as for <strong>age</strong>. Categorical factors are included
+without transformation. Hormonal therapy (<strong>htreat</strong>) was
+used as stratification variable.</p>
+<p>By <strong>verbose=TRUE</strong> the process of FP and variable
+selection is printed.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">mfp</span>(<span class="fu">Surv</span>(rfst, cens) <span class="sc">~</span> <span class="fu">strata</span>(htreat)<span class="sc">+</span>age<span class="sc">+</span><span class="fu">fp</span>(tumsize)<span class="sc">+</span><span class="fu">fp</span>(posnodal)<span class="sc">+</span><span class="fu">fp</span>(prm)<span class="sc">+</span><span class="fu">fp</span>(esm)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>        <span class="sc">+</span>menostat<span class="sc">+</span>tumgrad, <span class="at">family =</span> cox, <span class="at">data =</span> GBSG, <span class="at">select=</span><span class="fl">0.05</span>, <span class="at">verbose=</span><span class="cn">TRUE</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;  Variable    Deviance    Power(s)</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; ------------------------------------------------</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; Cycle 1</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;  posnodal             </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;              3135.218     </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;              3103.245    1</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;              3081.123    0</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;              3074.213    0.5 3</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;  prm              </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;              3095.43      </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;              3074.213    1</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;              3067.746    0.5</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;              3066.502    -2 0.5</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;  tumgrad2             </span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;              3081.253     </span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt;              3074.213    1</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt;  tumgrad3             </span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt;              3082.613     </span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt;              3074.213    1</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt;  tumsize              </span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt;              3075.813     </span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt;              3074.213    1</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt;              3072.091    -1</span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co">#&gt;              3071.882    -1 3</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="co">#&gt;  menostat2            </span></span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co">#&gt;              3076.922     </span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="co">#&gt;              3075.813    1</span></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co">#&gt;  age              </span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="co">#&gt;              3076.922     </span></span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a><span class="co">#&gt;              3076.922    1</span></span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-49"><a href="#cb4-49" tabindex="-1"></a><span class="co">#&gt;  esm              </span></span>
+<span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a><span class="co">#&gt;              3077.795     </span></span>
+<span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a><span class="co">#&gt;              3076.922    1</span></span>
+<span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a><span class="co">#&gt;              3073.627    3</span></span>
+<span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a><span class="co">#&gt;              3071.028    -0.5 3</span></span>
+<span id="cb4-54"><a href="#cb4-54" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-55"><a href="#cb4-55" tabindex="-1"></a><span class="co">#&gt; Cycle 2</span></span>
+<span id="cb4-56"><a href="#cb4-56" tabindex="-1"></a><span class="co">#&gt;  posnodal             </span></span>
+<span id="cb4-57"><a href="#cb4-57" tabindex="-1"></a><span class="co">#&gt;              3152.737     </span></span>
+<span id="cb4-58"><a href="#cb4-58" tabindex="-1"></a><span class="co">#&gt;              3108.965    1</span></span>
+<span id="cb4-59"><a href="#cb4-59" tabindex="-1"></a><span class="co">#&gt;              3085.051    0</span></span>
+<span id="cb4-60"><a href="#cb4-60" tabindex="-1"></a><span class="co">#&gt;              3077.795    0.5 3</span></span>
+<span id="cb4-61"><a href="#cb4-61" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-62"><a href="#cb4-62" tabindex="-1"></a><span class="co">#&gt;  prm              </span></span>
+<span id="cb4-63"><a href="#cb4-63" tabindex="-1"></a><span class="co">#&gt;              3099.562     </span></span>
+<span id="cb4-64"><a href="#cb4-64" tabindex="-1"></a><span class="co">#&gt;              3077.795    1</span></span>
+<span id="cb4-65"><a href="#cb4-65" tabindex="-1"></a><span class="co">#&gt;              3071.74     0.5</span></span>
+<span id="cb4-66"><a href="#cb4-66" tabindex="-1"></a><span class="co">#&gt;              3070.548    0 0.5</span></span>
+<span id="cb4-67"><a href="#cb4-67" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-68"><a href="#cb4-68" tabindex="-1"></a><span class="co">#&gt;  tumgrad2             </span></span>
+<span id="cb4-69"><a href="#cb4-69" tabindex="-1"></a><span class="co">#&gt;              3085.024     </span></span>
+<span id="cb4-70"><a href="#cb4-70" tabindex="-1"></a><span class="co">#&gt;              3077.795    1</span></span>
+<span id="cb4-71"><a href="#cb4-71" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-72"><a href="#cb4-72" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-73"><a href="#cb4-73" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-74"><a href="#cb4-74" tabindex="-1"></a><span class="co">#&gt;  tumgrad3             </span></span>
+<span id="cb4-75"><a href="#cb4-75" tabindex="-1"></a><span class="co">#&gt;              3086.686     </span></span>
+<span id="cb4-76"><a href="#cb4-76" tabindex="-1"></a><span class="co">#&gt;              3077.795    1</span></span>
+<span id="cb4-77"><a href="#cb4-77" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-78"><a href="#cb4-78" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-79"><a href="#cb4-79" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-80"><a href="#cb4-80" tabindex="-1"></a><span class="co">#&gt;  tumsize              </span></span>
+<span id="cb4-81"><a href="#cb4-81" tabindex="-1"></a><span class="co">#&gt;              3077.795     </span></span>
+<span id="cb4-82"><a href="#cb4-82" tabindex="-1"></a><span class="co">#&gt;              3076.471    1</span></span>
+<span id="cb4-83"><a href="#cb4-83" tabindex="-1"></a><span class="co">#&gt;              3074.077    -1</span></span>
+<span id="cb4-84"><a href="#cb4-84" tabindex="-1"></a><span class="co">#&gt;              3073.759    -0.5 0</span></span>
+<span id="cb4-85"><a href="#cb4-85" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-86"><a href="#cb4-86" tabindex="-1"></a><span class="co">#&gt;  menostat2            </span></span>
+<span id="cb4-87"><a href="#cb4-87" tabindex="-1"></a><span class="co">#&gt;              3077.795     </span></span>
+<span id="cb4-88"><a href="#cb4-88" tabindex="-1"></a><span class="co">#&gt;              3076.973    1</span></span>
+<span id="cb4-89"><a href="#cb4-89" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-90"><a href="#cb4-90" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-91"><a href="#cb4-91" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-92"><a href="#cb4-92" tabindex="-1"></a><span class="co">#&gt;  age              </span></span>
+<span id="cb4-93"><a href="#cb4-93" tabindex="-1"></a><span class="co">#&gt;              3077.795     </span></span>
+<span id="cb4-94"><a href="#cb4-94" tabindex="-1"></a><span class="co">#&gt;              3077.737    1</span></span>
+<span id="cb4-95"><a href="#cb4-95" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-96"><a href="#cb4-96" tabindex="-1"></a><span class="co">#&gt;                              </span></span>
+<span id="cb4-97"><a href="#cb4-97" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-98"><a href="#cb4-98" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-99"><a href="#cb4-99" tabindex="-1"></a><span class="co">#&gt; Tansformation</span></span>
+<span id="cb4-100"><a href="#cb4-100" tabindex="-1"></a><span class="co">#&gt;           shift scale</span></span>
+<span id="cb4-101"><a href="#cb4-101" tabindex="-1"></a><span class="co">#&gt; posnodal      0    10</span></span>
+<span id="cb4-102"><a href="#cb4-102" tabindex="-1"></a><span class="co">#&gt; prm           1   100</span></span>
+<span id="cb4-103"><a href="#cb4-103" tabindex="-1"></a><span class="co">#&gt; tumgrad2      0     1</span></span>
+<span id="cb4-104"><a href="#cb4-104" tabindex="-1"></a><span class="co">#&gt; tumgrad3      0     1</span></span>
+<span id="cb4-105"><a href="#cb4-105" tabindex="-1"></a><span class="co">#&gt; tumsize       0    10</span></span>
+<span id="cb4-106"><a href="#cb4-106" tabindex="-1"></a><span class="co">#&gt; menostat2     0     1</span></span>
+<span id="cb4-107"><a href="#cb4-107" tabindex="-1"></a><span class="co">#&gt; age           0     1</span></span>
+<span id="cb4-108"><a href="#cb4-108" tabindex="-1"></a><span class="co">#&gt; esm           1   100</span></span>
+<span id="cb4-109"><a href="#cb4-109" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-110"><a href="#cb4-110" tabindex="-1"></a><span class="co">#&gt; Fractional polynomials</span></span>
+<span id="cb4-111"><a href="#cb4-111" tabindex="-1"></a><span class="co">#&gt;           df.initial select alpha df.final power1 power2</span></span>
+<span id="cb4-112"><a href="#cb4-112" tabindex="-1"></a><span class="co">#&gt; posnodal           4   0.05  0.05        4    0.5      3</span></span>
+<span id="cb4-113"><a href="#cb4-113" tabindex="-1"></a><span class="co">#&gt; prm                4   0.05  0.05        1      1      .</span></span>
+<span id="cb4-114"><a href="#cb4-114" tabindex="-1"></a><span class="co">#&gt; tumgrad2           1   0.05  0.05        1      1      .</span></span>
+<span id="cb4-115"><a href="#cb4-115" tabindex="-1"></a><span class="co">#&gt; tumgrad3           1   0.05  0.05        1      1      .</span></span>
+<span id="cb4-116"><a href="#cb4-116" tabindex="-1"></a><span class="co">#&gt; tumsize            4   0.05  0.05        0      .      .</span></span>
+<span id="cb4-117"><a href="#cb4-117" tabindex="-1"></a><span class="co">#&gt; menostat2          1   0.05  0.05        0      .      .</span></span>
+<span id="cb4-118"><a href="#cb4-118" tabindex="-1"></a><span class="co">#&gt; age                1   0.05  0.05        0      .      .</span></span>
+<span id="cb4-119"><a href="#cb4-119" tabindex="-1"></a><span class="co">#&gt; esm                4   0.05  0.05        0      .      .</span></span>
+<span id="cb4-120"><a href="#cb4-120" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-121"><a href="#cb4-121" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-122"><a href="#cb4-122" tabindex="-1"></a><span class="co">#&gt; Transformations of covariates:</span></span>
+<span id="cb4-123"><a href="#cb4-123" tabindex="-1"></a><span class="co">#&gt;                                          formula</span></span>
+<span id="cb4-124"><a href="#cb4-124" tabindex="-1"></a><span class="co">#&gt; age                                         &lt;NA&gt;</span></span>
+<span id="cb4-125"><a href="#cb4-125" tabindex="-1"></a><span class="co">#&gt; tumsize                                     &lt;NA&gt;</span></span>
+<span id="cb4-126"><a href="#cb4-126" tabindex="-1"></a><span class="co">#&gt; posnodal I((posnodal/10)^0.5)+I((posnodal/10)^3)</span></span>
+<span id="cb4-127"><a href="#cb4-127" tabindex="-1"></a><span class="co">#&gt; prm                           I(((prm+1)/100)^1)</span></span>
+<span id="cb4-128"><a href="#cb4-128" tabindex="-1"></a><span class="co">#&gt; esm                                         &lt;NA&gt;</span></span>
+<span id="cb4-129"><a href="#cb4-129" tabindex="-1"></a><span class="co">#&gt; menostat                                    &lt;NA&gt;</span></span>
+<span id="cb4-130"><a href="#cb4-130" tabindex="-1"></a><span class="co">#&gt; tumgrad                                  tumgrad</span></span>
+<span id="cb4-131"><a href="#cb4-131" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-132"><a href="#cb4-132" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-133"><a href="#cb4-133" tabindex="-1"></a><span class="co">#&gt; Deviance table:</span></span>
+<span id="cb4-134"><a href="#cb4-134" tabindex="-1"></a><span class="co">#&gt;           Resid. Dev</span></span>
+<span id="cb4-135"><a href="#cb4-135" tabindex="-1"></a><span class="co">#&gt; Null model    3198.026</span></span>
+<span id="cb4-136"><a href="#cb4-136" tabindex="-1"></a><span class="co">#&gt; Linear model  3103.245</span></span>
+<span id="cb4-137"><a href="#cb4-137" tabindex="-1"></a><span class="co">#&gt; Final model   3077.795</span></span></code></pre></div>
+<p>After two cycles the final model is selected. Of the possible input
+variables tumor size (<strong>tumsize</strong>), menopausal status
+(<strong>menostat</strong>), age and estrogen receptor
+(<strong>esm</strong>) were excluded from the model. Only for variable
+<strong>posnodal</strong> a nonlinear transformation was chosen.
+Prescaling was used for esm, prm and tumsize.</p>
+<p>Details of the model fit are given by <strong>summary</strong>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">summary</span>(f)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; coxph(formula = Surv(rfst, cens) ~ strata(htreat) + I((posnodal/10)^0.5) + </span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;     I((posnodal/10)^3) + I(((prm + 1)/100)^1) + tumgrad, data = GBSG)</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;   n= 686, number of events= 299 </span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;                          coef exp(coef) se(coef)      z Pr(&gt;|z|)    </span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; I((posnodal/10)^0.5)  1.79086   5.99461  0.21339  8.392  &lt; 2e-16 ***</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; I((posnodal/10)^3)   -0.03251   0.96801  0.01334 -2.438  0.01478 *  </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; I(((prm + 1)/100)^1) -0.21321   0.80799  0.05381 -3.963 7.41e-05 ***</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; tumgrad2              0.61624   1.85195  0.24877  2.477  0.01324 *  </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; tumgrad3              0.74897   2.11482  0.26798  2.795  0.00519 ** </span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;                      exp(coef) exp(-coef) lower .95 upper .95</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; I((posnodal/10)^0.5)     5.995     0.1668    3.9457    9.1075</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; I((posnodal/10)^3)       0.968     1.0330    0.9430    0.9936</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; I(((prm + 1)/100)^1)     0.808     1.2376    0.7271    0.8978</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; tumgrad2                 1.852     0.5400    1.1373    3.0157</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; tumgrad3                 2.115     0.4729    1.2507    3.5758</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; Concordance= 0.679  (se = 0.016 )</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; Likelihood ratio test= 120.2  on 5 df,   p=&lt;2e-16</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; Wald test            = 116.4  on 5 df,   p=&lt;2e-16</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; Score (logrank) test = 122.9  on 5 df,   p=&lt;2e-16</span></span></code></pre></div>
+<p>Details of the FP transformations are given in the
+<strong>fptable</strong> value of the resulting
+<strong>mfp.object</strong>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>f<span class="sc">$</span>fptable</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt;           df.initial select alpha df.final power1 power2</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; posnodal           4   0.05  0.05        4    0.5      3</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; prm                4   0.05  0.05        1      1      .</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; tumgrad2           1   0.05  0.05        1      1      .</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; tumgrad3           1   0.05  0.05        1      1      .</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; tumsize            4   0.05  0.05        0      .      .</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; menostat2          1   0.05  0.05        0      .      .</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; age                1   0.05  0.05        0      .      .</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; esm                4   0.05  0.05        0      .      .</span></span></code></pre></div>
+<p>The final model uses a second degree fractional polynomial for the
+number of positive lymphnodes with powers 0.5 and 3. The estimated
+functional from can be visualized using
+<strong>predict.mfp</strong>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>vizmfp <span class="ot">&lt;-</span> <span class="fu">predict</span>(f, <span class="at">type =</span> <span class="st">&quot;terms&quot;</span>, <span class="at">terms =</span> <span class="st">&quot;posnodal&quot;</span>, <span class="at">seq =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>), <span class="at">ref =</span> <span class="fu">list</span>(<span class="dv">5</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">plot</span>(vizmfp<span class="sc">$</span>posnodal<span class="sc">$</span>variable, <span class="fu">exp</span>(vizmfp<span class="sc">$</span>posnodal<span class="sc">$</span>contrast), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">log =</span> <span class="st">&quot;y&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;posnodal&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Hazard Ratio&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">5</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">polygon</span>(<span class="at">x =</span> <span class="fu">c</span>(vizmfp<span class="sc">$</span>posnodal<span class="sc">$</span>variable, <span class="fu">rev</span>(vizmfp<span class="sc">$</span>posnodal<span class="sc">$</span>variable)),</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>        <span class="at">y =</span> <span class="fu">exp</span>(<span class="fu">c</span>(vizmfp<span class="sc">$</span>posnodal<span class="sc">$</span>contrast <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> vizmfp<span class="sc">$</span>posnodal<span class="sc">$</span>stderr,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>              <span class="fu">rev</span>(vizmfp<span class="sc">$</span>posnodal<span class="sc">$</span>contrast <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> vizmfp<span class="sc">$</span>posnodal<span class="sc">$</span>stderr))),</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">border =</span> <span class="cn">NA</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="fu">lines</span>(vizmfp<span class="sc">$</span>posnodal<span class="sc">$</span>variable, <span class="fu">exp</span>(vizmfp<span class="sc">$</span>posnodal<span class="sc">$</span>contrast), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>The value <strong>fit</strong> of the resulting mfp object can be
+used for survival curve estimation of the final model fit.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>pf <span class="ot">&lt;-</span> <span class="fu">survfit</span>(f<span class="sc">$</span>fit)  </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">plot</span>(pf, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>), <span class="at">xlab=</span><span class="st">&quot;Time (years)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Recurrence free survival rate&quot;</span>, <span class="at">xscale=</span><span class="fl">365.25</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAHgCAMAAABNUi8GAAAAaVBMVEUAAAAAADoAAGYAOjoAOpAAZrYA/wA6AAA6ADo6AGY6Ojo6OpA6kNtmAABmADpmtrZmtv+QOgCQZgCQkGaQ27aQ2/+2ZgC225C2/7a2///bkDrbkJDb////AAD/tmb/25D//7b//9v///+3p1dgAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAQQklEQVR4nO3di3LbuAFGYdm1V+nWSq22Vjeso9v7P2QFkrrZAgniQv4EzjfTnTR2TG32DEjwAi6OgLDF1B8A6EKgkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkBY50AXgJE2gh3Xz059/RflxKFaaQKvFW/OL7fkXQT8O5UoS6GF9ybJ6+Qz+cShYkkD3q/fzL7eWnTyBwgkjKKSlOgZth1COQREm0Sx+v2pm8Zbxk0DhKFGgY/845IpAIS11oBWzeIQYeQTtvoL1R58onwFzIryL/31x/h0SLY9woBfXUn8TaGnmEOjVb/b2pZlXoEY7lFJqGRJdi79OhpLN4tuDUxrNW5oR9LC23gjq8+Nsfn8dTak1O8luWH6N+eM6XWf5Bo3mJdUx6Hbx3vn1mIe0t2eiDArNyPwmSQ99O19KpJnIJNDa3UDKEWkecgr06+Ho8fbiaZLtIbm8Aj3+/pZoi0ZnKrNAHwyiFyQ6R9kFah9ET4km2yhSyS/QjkGU/fz85Bjol5NOd2h0ZrIMtGaNlETnJN9ADUujBDofeQd6fDxnYgidj+wDfZgohc5GAYE+SpRC56KIQB8kSqEzUUig3xNlLj8PxQT6/fw9N5HMQUGBnp8Qufs97nUSV1KgjcfnnWhUVHmBnhJ99JsMpZqKDLTzljwilVJioF03jR6ZPGkpM9DHe/lbFCqi1ECt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" /><!-- --></p>
+</div>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-AmbRoy01" class="csl-entry">
+Ambler, G., and P. Royston. 2001. <span>“Fractional Polynomial Model
+Selection Procedures: Investigation of <span>Type I</span> Error
+Rate.”</span> <em>Journal of Statistical Simulation and Computation</em>
+69: 89–108.
+</div>
+<div id="ref-MarPerGab76" class="csl-entry">
+Marcus, R., E. Peritz, and K. Gabriel. 1976. <span>“On Closed Test
+Procedures with Special Reference to Ordered Analysis of
+Variance.”</span> <em>Biometrika</em> 76: 655–60.
+</div>
+<div id="ref-R04" class="csl-entry">
+R Core Team. 2022. <em>R: A Language and Environment for Statistical
+Computing</em>. Vienna, Austria: R Foundation for Statistical Computing.
+<a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-FP94" class="csl-entry">
+Royston, P., and D. G. Altman. 1994. <span>“Regression Using Fractional
+Polynomials of Continuous Covariates: Parsimonious Parametric Modelling
+(with Discussion).”</span> <em>Applied Statistics</em> 43 (3): 429–67.
+</div>
+<div id="ref-RoySau03" class="csl-entry">
+Royston, P., and W. Sauerbrei. 2003. <span>“Stability of Multivariable
+Fractional Polynomial Models with Selection of Variables and
+Transformations: A Bootstrap Investigation.”</span> <em>Statistics in
+Medicine</em> 22: 639–59.
+</div>
+<div id="ref-SauRoy99" class="csl-entry">
+Sauerbrei, W., and P. Royston. 1999. <span>“Building Multivariable
+Prognostic and Diagnostic Models: Transformation of the Predictors by
+Using Fractional Polynomials.”</span> <em>Journal of the Royal
+Statistical Society (Series A)</em> 162: 71–94.
+</div>
+<div id="ref-SauRoy02" class="csl-entry">
+———. 2002. <span>“Corrigendum<span>:</span> <span>B</span>uilding
+Multivariable Prognostic and Diagnostic Models: Transformation of the
+Predictors by Using Fractional Polynomials.”</span> <em>Journal of the
+Royal Statistical Society (Series A)</em> 165: 399–400.
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
-mfp <- function (formula = formula(data), data = parent.frame(), family = gaussian, method = c("efron", "breslow"),
-    subset = NULL, na.action = na.omit, init = NULL, alpha = 0.05, select = 1, maxits = 20, keep = NULL, rescale = TRUE, verbose = FALSE, 
+mfp <- function (formula, data, family = gaussian, method = c("efron", "breslow"),
+    subset = NULL, na.action = na.omit, init = NULL, alpha = 0.05, select = 1, maxits = 20, keep = NULL, rescale = FALSE, verbose = FALSE, 
     x = TRUE, y = TRUE) 
 {
 #
@@ -149,7 +149,7 @@ if(cox){
         gauss <- (family$family == "gaussian")
         fit <- mfp.fit(X, Y, FALSE, gauss, df.list, scale.list, 
             alpha.list, select.list, verbose = verbose, family = family, 
-            xnames = xnames, maxits = maxits)
+            xnames = xnames, maxits = maxits, offset = offset)
         attr(fit, "class") <- c("mfp", "glm", "lm")
     }
 #
@@ -249,12 +249,19 @@ if(length(tvars1)) {      # are some vars selected?
     }
    } else {   # non-fp vars?
     if(length(vars[-fp.pos])) {
-	 tv <- pmatch(vars[-fp.pos], tvars[iv])
-     tvars[iv] <- vars[-fp.pos][which(!is.na(tv))]
+      
+      tv <- sapply(vars[-fp.pos], function(x) grepl(paste0("^", x), tvars[iv]))
+      tvars[iv] <- unique(vars[-fp.pos][tv])
+      
 	} 
     if(length(fp.pos)==0 & length(vars)) {
-	 tv <- pmatch(vars, tvars[iv])
-     tvars[iv] <- vars[which(!is.na(tv))]
+      
+      if(grepl("TRUE", tvars[iv])){ # if the variable is a factor (and therefore has TRUE added to the name) the match should take this into account. This avoids wrong matches for nested variable names, e.g. V2 and V20.
+        tv <- sapply(vars, function(x) grepl(paste0("^", x, "TRUE"), tvars[iv]))
+      } else{
+        tv <- sapply(vars, function(x) grepl(paste0("^", x, "$"), tvars[iv]))
+      }
+      tvars[iv] <- vars[tv]
 	} 
   }
 }
