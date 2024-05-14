@@ -45,7 +45,7 @@ Obtains predictions from an "mfp" object
     optional vector of subject identifiers. If specified, the output will contain one entry per subject rather than one entry per observation.
 }
   \item{safe}{
-        
+    unused.
 }
   \item{\dots}{
     further arguments used by \code{predict.glm} or \code{predict.coxph}.
